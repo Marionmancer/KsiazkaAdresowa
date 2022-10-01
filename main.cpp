@@ -138,7 +138,7 @@ int dodajAdresata (vector <Adresat> &adresaci, int iloscAdresatow) {
         adresaci[iloscAdresatow].id = adresaci [iloscAdresatow-1].id + 1;
 
     zapisDoPliku (adresaci, iloscAdresatow);
-    cout << "Dodano osobe do bazy przyjaciol" << endl;
+    cout << "Dodano osobe do bazy adresatow" << endl;
     Sleep(1000);
 
     return iloscAdresatow = adresaci.size();
@@ -199,7 +199,7 @@ void wyswietlDaneWszystkichOsob (vector <Adresat> &adresaci, int iloscAdresatow)
         }
     }
     if (iloscAdresatow == 0) {
-        cout << "Nie masz przyjaciol :/. Dodaj kogos! ;)" << endl;
+        cout << "Nie masz adresatow w bazie :/. Dodaj kogos! ;)" << endl;
         system("PAUSE");
     }
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
@@ -412,7 +412,7 @@ int main() {
             break;
         }
         case'4':{
-                cout << "Lista danych Twoich przyjaciol wyglada nastepujaco: " << endl;
+                cout << "Lista danych Twoich adresatow wyglada nastepujaco: " << endl;
             wyswietlDaneWszystkichOsob(adresaci, iloscAdresatow);
             break;
         }
