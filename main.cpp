@@ -9,17 +9,17 @@
 
 using namespace std;
 
-struct Przyjaciel {
+struct Adresat {
     int id;
     string imie = "", nazwisko = "", numerTelefonu = "", email = "", adres = "";
 };
 
-void zwiekszIloscPrzyjaciol (vector <Przyjaciel> &przyjaciele) {
-    Przyjaciel nowyPrzyjaciel;
+void zwiekszIloscPrzyjaciol (vector <Adresat> &przyjaciele) {
+    Adresat nowyPrzyjaciel;
     przyjaciele.push_back(nowyPrzyjaciel);
 }
 
-int odczytPliku (vector <Przyjaciel> &przyjaciele, int i) {
+int odczytPliku (vector <Adresat> &przyjaciele, int i) {
     fstream plik;
     plik.open("ksiazka_adresowa.txt", ios::in);
     string linia;
@@ -81,7 +81,7 @@ bool czyEmailPoprawny(string email) {
     }
 }
 
-void zapisDoPliku (vector <Przyjaciel> &przyjaciele, int i) {
+void zapisDoPliku (vector <Adresat> &przyjaciele, int i) {
     fstream plik;
     const int PIERWSZY_RECORD_W_PLIKU = 0;
     plik.open("ksiazka_adresowa.txt", ios::out | ios::app);
@@ -98,7 +98,7 @@ void zapisDoPliku (vector <Przyjaciel> &przyjaciele, int i) {
     plik.close();
 }
 
-int dodajPrzyjaciela (vector <Przyjaciel> &przyjaciele, int iloscPrzyjaciol) {
+int dodajPrzyjaciela (vector <Adresat> &przyjaciele, int iloscPrzyjaciol) {
 
     zwiekszIloscPrzyjaciol(przyjaciele);
     cout << "Podaj imie: " << endl;
@@ -149,7 +149,7 @@ void wyswietlKomunikatZamknieciaWynikowWyszukiwania () {
     system("PAUSE");
 }
 
-void wyswietlDaneOsoby (vector <Przyjaciel> &przyjaciele, int idOsoby) {
+void wyswietlDaneOsoby (vector <Adresat> &przyjaciele, int idOsoby) {
     cout << przyjaciele[idOsoby].id << "|";
     cout << przyjaciele[idOsoby].imie << "|";
     cout << przyjaciele[idOsoby].nazwisko << "|";
@@ -158,7 +158,7 @@ void wyswietlDaneOsoby (vector <Przyjaciel> &przyjaciele, int idOsoby) {
     cout << przyjaciele[idOsoby].adres << "|" << endl;
 }
 
-void wyszukajPoImieniu (vector <Przyjaciel> &przyjaciele, int iloscPrzyjaciol, string szukaneImie) {
+void wyszukajPoImieniu (vector <Adresat> &przyjaciele, int iloscPrzyjaciol, string szukaneImie) {
     int iloscWynikow = 0;
 
     for (int i = 0; i < iloscPrzyjaciol; i++) {
@@ -175,7 +175,7 @@ void wyszukajPoImieniu (vector <Przyjaciel> &przyjaciele, int iloscPrzyjaciol, s
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-void wyszukajPoNazwisku (vector <Przyjaciel> &przyjaciele, int iloscPrzyjaciol, string szukaneNazwisko) {
+void wyszukajPoNazwisku (vector <Adresat> &przyjaciele, int iloscPrzyjaciol, string szukaneNazwisko) {
     int iloscWynikow = 0;
 
     for (int i = 0; i < iloscPrzyjaciol; i++) {
@@ -192,7 +192,7 @@ void wyszukajPoNazwisku (vector <Przyjaciel> &przyjaciele, int iloscPrzyjaciol, 
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-void wyswietlDaneWszystkichOsob (vector <Przyjaciel> &przyjaciele, int iloscPrzyjaciol) {
+void wyswietlDaneWszystkichOsob (vector <Adresat> &przyjaciele, int iloscPrzyjaciol) {
     for (int i = 0; i < iloscPrzyjaciol; i++) {
         if (iloscPrzyjaciol > 0) {
             wyswietlDaneOsoby(przyjaciele, i);
@@ -205,7 +205,7 @@ void wyswietlDaneWszystkichOsob (vector <Przyjaciel> &przyjaciele, int iloscPrzy
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-bool czyAdresatJestWKsiazceAdresowej (vector <Przyjaciel> przyjaciele, int idAdresataDoSprawdzenia) {
+bool czyAdresatJestWKsiazceAdresowej (vector <Adresat> przyjaciele, int idAdresataDoSprawdzenia) {
     bool wynikWyszukiwania = false;
 
     for (unsigned int i = 0; i < przyjaciele.size(); i++) {
@@ -217,7 +217,7 @@ bool czyAdresatJestWKsiazceAdresowej (vector <Przyjaciel> przyjaciele, int idAdr
     return wynikWyszukiwania;
 }
 
-int podbierzIdAdresataDoEdycji (vector <Przyjaciel> przyjaciele) {
+int podbierzIdAdresataDoEdycji (vector <Adresat> przyjaciele) {
 
     int idEdytowanegoAdresata = 0;
 
@@ -234,7 +234,7 @@ int podbierzIdAdresataDoEdycji (vector <Przyjaciel> przyjaciele) {
     return idEdytowanegoAdresata;
 }
 
-void nadpiszPlik (vector <Przyjaciel> &przyjaciele) {
+void nadpiszPlik (vector <Adresat> &przyjaciele) {
     fstream plik;
     const int PIERWSZY_RECORD_W_PLIKU = 0;
     plik.open("ksiazka_adresowa.txt", ios::out);
@@ -253,7 +253,7 @@ void nadpiszPlik (vector <Przyjaciel> &przyjaciele) {
     }
 }
 
-int podajPolozenieAdresataPoId (vector <Przyjaciel> przyjaciele, int idAdresataDoSprawdzenia){
+int podajPolozenieAdresataPoId (vector <Adresat> przyjaciele, int idAdresataDoSprawdzenia){
     int polozenieAdresataPoId = 0;
 
     for (unsigned int i = 0; i < przyjaciele.size(); i++) {
@@ -277,7 +277,7 @@ void wyswietlMenuEdycyjne () {
     cout << "6. Powrot do menu glownego" << endl << endl;
 }
 
-void dokonajEdycjiDanychAdresata (vector <Przyjaciel> &przyjaciele) {
+void dokonajEdycjiDanychAdresata (vector <Adresat> &przyjaciele) {
     int idEdytowanegoAdresata = podbierzIdAdresataDoEdycji (przyjaciele);
     int polozenieAdresataPoNumerzeId = podajPolozenieAdresataPoId (przyjaciele, idEdytowanegoAdresata);
 
@@ -340,7 +340,7 @@ bool czyUzytkownikPotwierdzilUsuniecieAdresata () {
     else return false;
 }
 
-int usunAdresata (vector <Przyjaciel> &przyjaciele, int iloscPrzyjaciol) {
+int usunAdresata (vector <Adresat> &przyjaciele, int iloscPrzyjaciol) {
     int idAdresataDoUsuniecia = 0;
     cout << "Podaj ID adresata do usuniecia z ksiazki adresowej" << endl;
 
@@ -385,7 +385,7 @@ void wyswietlMenuGlowne () {
 }
 
 int main() {
-    vector <Przyjaciel> przyjaciele;
+    vector <Adresat> przyjaciele;
     int iloscPrzyjaciol = 0;
 
     iloscPrzyjaciol = odczytPliku (przyjaciele, iloscPrzyjaciol);
