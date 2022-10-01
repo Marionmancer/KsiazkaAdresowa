@@ -14,7 +14,7 @@ struct Adresat {
     string imie = "", nazwisko = "", numerTelefonu = "", email = "", adres = "";
 };
 
-void zwiekszIloscPrzyjaciol (vector <Adresat> &adresaci) {
+void zwiekszIloscAdresatow (vector <Adresat> &adresaci) {
     Adresat nowyPrzyjaciel;
     adresaci.push_back(nowyPrzyjaciel);
 }
@@ -29,7 +29,7 @@ int odczytPliku (vector <Adresat> &adresaci, int i) {
         while (getline(plik,linia,'|')) {
             switch (nrLinijki) {
             case 1:
-                zwiekszIloscPrzyjaciol(adresaci);
+                zwiekszIloscAdresatow(adresaci);
                 adresaci[i].id = atoi(linia.c_str());
                 break;
             case 2:
@@ -100,7 +100,7 @@ void zapisDoPliku (vector <Adresat> &adresaci, int i) {
 
 int dodajPrzyjaciela (vector <Adresat> &adresaci, int iloscPrzyjaciol) {
 
-    zwiekszIloscPrzyjaciol(adresaci);
+    zwiekszIloscAdresatow(adresaci);
     cout << "Podaj imie: " << endl;
     do {
         adresaci[iloscPrzyjaciol].imie = wczytajLinieTekstu();
