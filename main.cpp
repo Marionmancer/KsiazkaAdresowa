@@ -98,50 +98,50 @@ void zapisDoPliku (vector <Adresat> &adresaci, int i) {
     plik.close();
 }
 
-int dodajPrzyjaciela (vector <Adresat> &adresaci, int iloscPrzyjaciol) {
+int dodajPrzyjaciela (vector <Adresat> &adresaci, int iloscAdresatow) {
 
     zwiekszIloscAdresatow(adresaci);
     cout << "Podaj imie: " << endl;
     do {
-        adresaci[iloscPrzyjaciol].imie = wczytajLinieTekstu();
-        if (czyTekstMaDozwoloneZnaki(adresaci[iloscPrzyjaciol].imie) == false) {
+        adresaci[iloscAdresatow].imie = wczytajLinieTekstu();
+        if (czyTekstMaDozwoloneZnaki(adresaci[iloscAdresatow].imie) == false) {
             cout << "Wprowadzone imie jest niepoprawne, wprowadz raz jeszcze" << endl;
         }
-    } while (czyTekstMaDozwoloneZnaki(adresaci[iloscPrzyjaciol].imie) == false);
+    } while (czyTekstMaDozwoloneZnaki(adresaci[iloscAdresatow].imie) == false);
 
     cout << "Podaj nazwisko: " << endl;
     do {
-        adresaci[iloscPrzyjaciol].nazwisko = wczytajLinieTekstu();
-        if (czyTekstMaDozwoloneZnaki(adresaci[iloscPrzyjaciol].nazwisko) == false) {
+        adresaci[iloscAdresatow].nazwisko = wczytajLinieTekstu();
+        if (czyTekstMaDozwoloneZnaki(adresaci[iloscAdresatow].nazwisko) == false) {
             cout << "Wprowadzone nazwisko jest niepoprawne, wprowadz raz jeszcze" << endl;
         }
-    } while (czyTekstMaDozwoloneZnaki(adresaci[iloscPrzyjaciol].nazwisko) == false);
+    } while (czyTekstMaDozwoloneZnaki(adresaci[iloscAdresatow].nazwisko) == false);
 
     cout << "Podaj numer telefonu: " << endl;
-    adresaci[iloscPrzyjaciol].numerTelefonu = wczytajLinieTekstu();
+    adresaci[iloscAdresatow].numerTelefonu = wczytajLinieTekstu();
 
     cout << "Podaj e-mail: " << endl;
     do {
-        adresaci[iloscPrzyjaciol].email = wczytajLinieTekstu();
-        if (czyEmailPoprawny(adresaci[iloscPrzyjaciol].email) == false) {
+        adresaci[iloscAdresatow].email = wczytajLinieTekstu();
+        if (czyEmailPoprawny(adresaci[iloscAdresatow].email) == false) {
             cout << "Wprowadzony e-mail jest niepoprawny, wprowadz raz jeszcze" << endl;
         }
-    } while (czyEmailPoprawny(adresaci[iloscPrzyjaciol].email) == false);
+    } while (czyEmailPoprawny(adresaci[iloscAdresatow].email) == false);
 
     cout << "Podaj adres: " << endl;
-    adresaci[iloscPrzyjaciol].adres = wczytajLinieTekstu();
+    adresaci[iloscAdresatow].adres = wczytajLinieTekstu();
 
-    if (iloscPrzyjaciol == 0){
-        adresaci[iloscPrzyjaciol].id = 1;
+    if (iloscAdresatow == 0){
+        adresaci[iloscAdresatow].id = 1;
     }
     else
-        adresaci[iloscPrzyjaciol].id = adresaci [iloscPrzyjaciol-1].id + 1;
+        adresaci[iloscAdresatow].id = adresaci [iloscAdresatow-1].id + 1;
 
-    zapisDoPliku (adresaci, iloscPrzyjaciol);
+    zapisDoPliku (adresaci, iloscAdresatow);
     cout << "Dodano osobe do bazy przyjaciol" << endl;
     Sleep(1000);
 
-    return iloscPrzyjaciol = adresaci.size();
+    return iloscAdresatow = adresaci.size();
 }
 
 void wyswietlKomunikatZamknieciaWynikowWyszukiwania () {
@@ -158,10 +158,10 @@ void wyswietlDaneOsoby (vector <Adresat> &adresaci, int idOsoby) {
     cout << adresaci[idOsoby].adres << "|" << endl;
 }
 
-void wyszukajPoImieniu (vector <Adresat> &adresaci, int iloscPrzyjaciol, string szukaneImie) {
+void wyszukajPoImieniu (vector <Adresat> &adresaci, int iloscAdresatow, string szukaneImie) {
     int iloscWynikow = 0;
 
-    for (int i = 0; i < iloscPrzyjaciol; i++) {
+    for (int i = 0; i < iloscAdresatow; i++) {
         if (adresaci[i].imie == szukaneImie) {
             wyswietlDaneOsoby(adresaci, i);
             ++iloscWynikow;
@@ -175,10 +175,10 @@ void wyszukajPoImieniu (vector <Adresat> &adresaci, int iloscPrzyjaciol, string 
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-void wyszukajPoNazwisku (vector <Adresat> &adresaci, int iloscPrzyjaciol, string szukaneNazwisko) {
+void wyszukajPoNazwisku (vector <Adresat> &adresaci, int iloscAdresatow, string szukaneNazwisko) {
     int iloscWynikow = 0;
 
-    for (int i = 0; i < iloscPrzyjaciol; i++) {
+    for (int i = 0; i < iloscAdresatow; i++) {
         if (adresaci[i].nazwisko == szukaneNazwisko) {
             wyswietlDaneOsoby(adresaci, i);
             ++iloscWynikow;
@@ -192,13 +192,13 @@ void wyszukajPoNazwisku (vector <Adresat> &adresaci, int iloscPrzyjaciol, string
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-void wyswietlDaneWszystkichOsob (vector <Adresat> &adresaci, int iloscPrzyjaciol) {
-    for (int i = 0; i < iloscPrzyjaciol; i++) {
-        if (iloscPrzyjaciol > 0) {
+void wyswietlDaneWszystkichOsob (vector <Adresat> &adresaci, int iloscAdresatow) {
+    for (int i = 0; i < iloscAdresatow; i++) {
+        if (iloscAdresatow > 0) {
             wyswietlDaneOsoby(adresaci, i);
         }
     }
-    if (iloscPrzyjaciol == 0) {
+    if (iloscAdresatow == 0) {
         cout << "Nie masz przyjaciol :/. Dodaj kogos! ;)" << endl;
         system("PAUSE");
     }
@@ -340,7 +340,7 @@ bool czyUzytkownikPotwierdzilUsuniecieAdresata () {
     else return false;
 }
 
-int usunAdresata (vector <Adresat> &adresaci, int iloscPrzyjaciol) {
+int usunAdresata (vector <Adresat> &adresaci, int iloscAdresatow) {
     int idAdresataDoUsuniecia = 0;
     cout << "Podaj ID adresata do usuniecia z ksiazki adresowej" << endl;
 
@@ -355,7 +355,7 @@ int usunAdresata (vector <Adresat> &adresaci, int iloscPrzyjaciol) {
         for (unsigned int i = 0; i < adresaci.size(); i++) {
             if (adresaci[i].id == idAdresataDoUsuniecia) {
                 adresaci.erase(adresaci.begin() + i);
-                iloscPrzyjaciol = adresaci.size();
+                iloscAdresatow = adresaci.size();
                 i = adresaci.size();
                 nadpiszPlik (adresaci);
                 cout << "Adresat o wskazanym ID zostal usuniety z Ksiazki Adresowej" << endl;
@@ -368,7 +368,7 @@ int usunAdresata (vector <Adresat> &adresaci, int iloscPrzyjaciol) {
         system("PAUSE");
     }
 
-    return iloscPrzyjaciol;
+    return iloscAdresatow;
 }
 
 void wyswietlMenuGlowne () {
@@ -386,9 +386,9 @@ void wyswietlMenuGlowne () {
 
 int main() {
     vector <Adresat> adresaci;
-    int iloscPrzyjaciol = 0;
+    int iloscAdresatow = 0;
 
-    iloscPrzyjaciol = odczytPliku (adresaci, iloscPrzyjaciol);
+    iloscAdresatow = odczytPliku (adresaci, iloscAdresatow);
 
     while(true) {
         wyswietlMenuGlowne ();
@@ -396,36 +396,36 @@ int main() {
         char wybor = getch();
         switch (wybor) {
         case'1':
-                iloscPrzyjaciol = dodajPrzyjaciela (adresaci, iloscPrzyjaciol);
+                iloscAdresatow = dodajPrzyjaciela (adresaci, iloscAdresatow);
             break;
 
         case'2': {
                 cout << "Podaj imie do wyszukania" <<endl;
             string szukaneImie = wczytajLinieTekstu();
-            wyszukajPoImieniu (adresaci, iloscPrzyjaciol, szukaneImie);
+            wyszukajPoImieniu (adresaci, iloscAdresatow, szukaneImie);
             break;
         }
         case'3':{
                 cout << "Podaj nazwisko do wyszukania" <<endl;
             string szukaneNazwisko = wczytajLinieTekstu();
-            wyszukajPoNazwisku (adresaci, iloscPrzyjaciol, szukaneNazwisko);
+            wyszukajPoNazwisku (adresaci, iloscAdresatow, szukaneNazwisko);
             break;
         }
         case'4':{
                 cout << "Lista danych Twoich przyjaciol wyglada nastepujaco: " << endl;
-            wyswietlDaneWszystkichOsob(adresaci, iloscPrzyjaciol);
+            wyswietlDaneWszystkichOsob(adresaci, iloscAdresatow);
             break;
         }
         case'5':{
-            if (iloscPrzyjaciol == 0) {
+            if (iloscAdresatow == 0) {
                 cout << "Baza adresatow jest pusta. Dodaj kogos" << endl;
                 Sleep (1000);
             } else
-                iloscPrzyjaciol = usunAdresata (adresaci, iloscPrzyjaciol);
+                iloscAdresatow = usunAdresata (adresaci, iloscAdresatow);
             break;
         }
         case'6':{
-            if (iloscPrzyjaciol == 0) {
+            if (iloscAdresatow == 0) {
                 cout << "Baza adresatow jest pusta. Dodaj kogos" << endl;
                 Sleep (1000);
             } else
