@@ -98,7 +98,7 @@ void zapisDoPliku (vector <Adresat> &adresaci, int i) {
     plik.close();
 }
 
-int dodajPrzyjaciela (vector <Adresat> &adresaci, int iloscAdresatow) {
+int dodajAdresata (vector <Adresat> &adresaci, int iloscAdresatow) {
 
     zwiekszIloscAdresatow(adresaci);
     cout << "Podaj imie: " << endl;
@@ -396,7 +396,7 @@ int main() {
         char wybor = getch();
         switch (wybor) {
         case'1':
-                iloscAdresatow = dodajPrzyjaciela (adresaci, iloscAdresatow);
+                iloscAdresatow = dodajAdresata (adresaci, iloscAdresatow);
             break;
 
         case'2': {
