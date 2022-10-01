@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1664653976 source:c:\users\kamil\onedrive\programowanie\kodowanie\c++\00_zadania_pprog\19_seminarium\ksiazka_adresowa_sem_19\main.cpp
+	<conio.h>
+	<cstdlib>
+	<fstream>
+	<iostream>
+	<sstream>
+	<string>
+	<vector>
+	<windows.h>
+
