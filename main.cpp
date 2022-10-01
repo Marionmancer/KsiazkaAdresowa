@@ -15,8 +15,8 @@ struct Adresat {
 };
 
 void zwiekszIloscAdresatow (vector <Adresat> &adresaci) {
-    Adresat nowyPrzyjaciel;
-    adresaci.push_back(nowyPrzyjaciel);
+    Adresat nowyAdresat;
+    adresaci.push_back(nowyAdresat);
 }
 
 int odczytPliku (vector <Adresat> &adresaci, int i) {
