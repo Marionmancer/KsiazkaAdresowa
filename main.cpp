@@ -9,6 +9,16 @@
 
 using namespace std;
 
+struct Uzytkownik {
+    int id;
+    string nazwa, haslo;
+};
+
+void zwiekszIloscUzytkownikow (vector <Uzytkownik> &uzytkownicy) {
+    Uzytkownik tempUser = { 0, "", "" };
+    uzytkownicy.push_back(tempUser);
+}
+
 struct Adresat {
     int id;
     string imie = "", nazwisko = "", numerTelefonu = "", email = "", adres = "";
@@ -17,6 +27,38 @@ struct Adresat {
 void zwiekszIloscAdresatow (vector <Adresat> &adresaci) {
     Adresat nowyAdresat = { 0, "", "" , "" , "" , "" };
     adresaci.push_back(nowyAdresat);
+}
+
+void wyswietlMenuLogowania () {
+    system("cls");
+    cout << "1. Rejestracja" << endl;
+    cout << "2. Logowanie" << endl;
+    cout << "3. Zakoncz program" << endl << endl;
+}
+
+void wyswietlMenuGlowne () {
+    system("cls");
+    cout << "KSIAZKA ADRESOWA" << endl;
+    cout << "---------------------" << endl;
+    cout << "1. Dodaj adresata" << endl;
+    cout << "2. Wyszukaj po imieniu" << endl;
+    cout << "3. Wyszukaj po nazwisku" << endl;
+    cout << "4. Wyswietl wszystkich adresatow" << endl;
+    cout << "5. Usun adresata" << endl;
+    cout << "6. Edytuj adresata" << endl;
+    cout << "9. Zamknij program" << endl << endl;
+}
+
+void wyswietlMenuEdycyjne () {
+    system("cls");
+    cout << "WYBIERZ DANE DO EDYCJI" << endl;
+    cout << "---------------------" << endl;
+    cout << "1. Imie" << endl;
+    cout << "2. Nazwisko" << endl;
+    cout << "3. Numer telefonu" << endl;
+    cout << "4. e-mail" << endl;
+    cout << "5. Adres" << endl;
+    cout << "6. Powrot do menu glownego" << endl << endl;
 }
 
 void odczytPliku (vector <Adresat> &adresaci) {
@@ -53,6 +95,78 @@ void odczytPliku (vector <Adresat> &adresaci) {
             nrLinijki++;
         }
         plik.close();
+    }
+}
+
+void rejestracja (vector <Uzytkownik> &uzytkownicy) {
+
+    string nazwa, haslo;
+    zwiekszIloscUzytkownikow (uzytkownicy);
+
+    cout << "Podaj nazwe uzytkownika: ";
+    cin >> nazwa;
+
+    unsigned int i=0;
+    while(i < uzytkownicy.size()) {
+        if (uzytkownicy[i].nazwa == nazwa) {
+            cout << "Taki uzytkownik istnieje. Wpisz inna nazwe uzytkownika: ";
+            cin >> nazwa;
+            i = 0;
+        } else {
+            i++;
+        }
+    }
+    cout << "Podaj haslo: ";
+    cin >> haslo;
+
+    uzytkownicy[uzytkownicy.size() - 1].nazwa = nazwa;
+    uzytkownicy[uzytkownicy.size() - 1].haslo = haslo;
+    uzytkownicy[uzytkownicy.size() - 1].id = uzytkownicy[uzytkownicy.size() - 2].id + 1;
+
+    cout << "Konto zostalo zalozone " << endl;
+    system("PAUSE");
+}
+
+int logowanie(vector <Uzytkownik> &uzytkownicy) {
+
+    string nazwa, haslo;
+
+    cout << "Podaj login: ";
+    cin >> nazwa;
+
+    unsigned int i=0;
+    while(i < uzytkownicy.size()) {
+        if (uzytkownicy[i].nazwa == nazwa) {
+            for (int iloscProb = 0; iloscProb < 3; iloscProb++) {
+                cout << "Podaj haslo. Pozostalo prob " << 3 - iloscProb << ": ";
+                cin >> haslo;
+                if (uzytkownicy[i].haslo == haslo) {
+                    cout << "Zalogowales sie." << endl;
+                    system("PAUSE");
+                    return uzytkownicy[i].id;
+                }
+            }
+            cout << "Podales 3 razy bledne haslo. Poczekaj 3 sekundy przed kolejna proba" << endl;
+            Sleep(3000);
+            return 0;
+        }
+        i++;
+    }
+    cout << "Nie ma uzytkownika z takim loginem" << endl;
+    Sleep(1500);
+    return 0;
+}
+
+void zmianaHasla(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika) {
+    string haslo;
+    cout << "Podaj nowe haslo: " << endl;
+    cin >> haslo;
+    for (unsigned int i = 0; i < uzytkownicy.size(); i++) {
+        if (uzytkownicy[i].id == idZalogowanegoUzytkownika) {
+            uzytkownicy[i].haslo = haslo;
+            cout << "Haslo zostalo zmienione" << endl;
+            Sleep(1500);
+        }
     }
 }
 
@@ -260,18 +374,6 @@ int podajPolozenieAdresataPoId (vector <Adresat> adresaci, int idAdresataDoSpraw
     return polozenieAdresataPoId;
 }
 
-void wyswietlMenuEdycyjne () {
-    system("cls");
-    cout << "WYBIERZ DANE DO EDYCJI" << endl;
-    cout << "---------------------" << endl;
-    cout << "1. Imie" << endl;
-    cout << "2. Nazwisko" << endl;
-    cout << "3. Numer telefonu" << endl;
-    cout << "4. e-mail" << endl;
-    cout << "5. Adres" << endl;
-    cout << "6. Powrot do menu glownego" << endl << endl;
-}
-
 void dokonajEdycjiDanychAdresata (vector <Adresat> &adresaci) {
     int idEdytowanegoAdresata = podbierzIdAdresataDoEdycji (adresaci);
     int polozenieAdresataPoNumerzeId = podajPolozenieAdresataPoId (adresaci, idEdytowanegoAdresata);
@@ -363,75 +465,90 @@ void usunAdresata (vector <Adresat> &adresaci) {
     }
 }
 
-void wyswietlMenuGlowne () {
-    system("cls");
-    cout << "KSIAZKA ADRESOWA" << endl;
-    cout << "---------------------" << endl;
-    cout << "1. Dodaj adresata" << endl;
-    cout << "2. Wyszukaj po imieniu" << endl;
-    cout << "3. Wyszukaj po nazwisku" << endl;
-    cout << "4. Wyswietl wszystkich adresatow" << endl;
-    cout << "5. Usun adresata" << endl;
-    cout << "6. Edytuj adresata" << endl;
-    cout << "9. Zamknij program" << endl << endl;
-}
-
 int main() {
+    vector <Uzytkownik> uzytkownicy;
     vector <Adresat> adresaci;
+    int idZalogowanegoUzytkownika = 0;
 
     odczytPliku (adresaci);
 
-    while(true) {
-        wyswietlMenuGlowne ();
+    while (true) {
+        if (idZalogowanegoUzytkownika == 0) {
 
-        char wybor = getch();
-        switch (wybor) {
-        case'1':
-                dodajAdresata (adresaci);
-            break;
+            wyswietlMenuLogowania();
 
-        case'2': {
-                cout << "Podaj imie do wyszukania" <<endl;
-            string szukaneImie = wczytajLinieTekstu();
-            wyszukajPoImieniu (adresaci, szukaneImie);
-            break;
-        }
-        case'3':{
-                cout << "Podaj nazwisko do wyszukania" <<endl;
-            string szukaneNazwisko = wczytajLinieTekstu();
-            wyszukajPoNazwisku (adresaci, szukaneNazwisko);
-            break;
-        }
-        case'4':{
-                cout << "Lista danych Twoich adresatow wyglada nastepujaco: " << endl;
-            wyswietlDaneWszystkichOsob(adresaci);
-            break;
-        }
-        case'5':{
-            if (adresaci.size() == 0) {
-                cout << "Baza adresatow jest pusta. Dodaj kogos" << endl;
-                Sleep (1000);
-            } else
-                usunAdresata (adresaci);
-            break;
-        }
-        case'6':{
-            if (adresaci.size() == 0) {
-                cout << "Baza adresatow jest pusta. Dodaj kogos" << endl;
-                Sleep (1000);
-            } else
-                dokonajEdycjiDanychAdresata(adresaci);
-            break;
-        }
-        case'9':
-            exit(0);
-            break;
+            char wybor = getch();
+            switch (wybor) {
 
-        default:
-            cout << "Nie ma takiej opcji w menu!" <<endl;
-            Sleep (1000);
+            case'1':
+                    rejestracja(uzytkownicy);
+                break;
+
+            case'2':
+                    idZalogowanegoUzytkownika = logowanie(uzytkownicy);
+                break;
+
+            case'3':
+                    exit(0);
+                break;
+
+            default:
+                ;
+            }
+        } else {
+            while(true) {
+                wyswietlMenuGlowne ();
+
+                char wybor = getch();
+                switch (wybor) {
+                case'1':
+                        dodajAdresata (adresaci);
+                    break;
+
+                case'2': {
+                        cout << "Podaj imie do wyszukania" <<endl;
+                    string szukaneImie = wczytajLinieTekstu();
+                    wyszukajPoImieniu (adresaci, szukaneImie);
+                    break;
+                }
+                case'3':{
+                        cout << "Podaj nazwisko do wyszukania" <<endl;
+                    string szukaneNazwisko = wczytajLinieTekstu();
+                    wyszukajPoNazwisku (adresaci, szukaneNazwisko);
+                    break;
+                }
+                case'4':{
+                        cout << "Lista danych Twoich adresatow wyglada nastepujaco: " << endl;
+                    wyswietlDaneWszystkichOsob(adresaci);
+                    break;
+                }
+                case'5':{
+                    if (adresaci.size() == 0) {
+                        cout << "Baza adresatow jest pusta. Dodaj kogos" << endl;
+                        Sleep (1000);
+                    } else
+                        usunAdresata (adresaci);
+                    break;
+                }
+                case'6':{
+                    if (adresaci.size() == 0) {
+                        cout << "Baza adresatow jest pusta. Dodaj kogos" << endl;
+                        Sleep (1000);
+                    } else
+                        dokonajEdycjiDanychAdresata(adresaci);
+                    break;
+                }
+                case'9':
+                    exit(0);
+                    break;
+
+                default:
+                    cout << "Nie ma takiej opcji w menu!" <<endl;
+                    Sleep (1000);
+                }
+                system("cls");
+                }
         }
-        system("cls");
-        }
+    }
     return 0;
 }
