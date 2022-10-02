@@ -334,6 +334,7 @@ void wyswietlKomunikatZamknieciaWynikowWyszukiwania () {
 
 void wyswietlDaneAdresata (vector <Adresat> &adresaci, int idAdresata) {
     cout << adresaci[idAdresata].id << "|";
+    cout << adresaci[idAdresata].idUzytkownika << "|";
     cout << adresaci[idAdresata].imie << "|";
     cout << adresaci[idAdresata].nazwisko << "|";
     cout << adresaci[idAdresata].numerTelefonu << "|";
@@ -341,11 +342,11 @@ void wyswietlDaneAdresata (vector <Adresat> &adresaci, int idAdresata) {
     cout << adresaci[idAdresata].adres << "|" << endl;
 }
 
-void wyszukajAdresataPoImieniu (vector <Adresat> &adresaci, string szukaneImie) {
+void wyszukajAdresataPoImieniu (vector <Adresat> &adresaci, string szukaneImie, int idZalogowanegoUzytkownika) {
     int iloscWynikow = 0;
 
     for (unsigned int i = 0; i < adresaci.size(); i++) {
-        if (adresaci[i].imie == szukaneImie) {
+        if ((adresaci[i].imie == szukaneImie) && (adresaci[i].idUzytkownika == idZalogowanegoUzytkownika)) {
             wyswietlDaneAdresata(adresaci, i);
             ++iloscWynikow;
         }
@@ -583,7 +584,7 @@ int main() {
             case'2': {
                     cout << "Podaj imie do wyszukania" <<endl;
                 string szukaneImie = wczytajLinieTekstu();
-                wyszukajAdresataPoImieniu (adresaci, szukaneImie);
+                wyszukajAdresataPoImieniu (adresaci, szukaneImie, idZalogowanegoUzytkownika);
                 break;
             }
             case'3':{
