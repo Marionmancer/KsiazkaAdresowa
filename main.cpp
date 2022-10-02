@@ -14,11 +14,6 @@ struct Uzytkownik {
     string nazwa, haslo;
 };
 
-void zwiekszIloscUzytkownikow (vector <Uzytkownik> &uzytkownicy) {
-    Uzytkownik tempUser = { 0, "", "" };
-    uzytkownicy.push_back(tempUser);
-}
-
 struct Adresat {
     int id, idUzytkownika;
     string imie = "", nazwisko = "", numerTelefonu = "", email = "", adres = "";
@@ -62,29 +57,46 @@ void wyswietlMenuEdycjiDanychAdresatow () {
     cout << "6. Powrot do menu glownego" << endl << endl;
 }
 
+Uzytkownik pobierzDaneUzytkownika(string daneUzytkownikaOddzielonePionowymiKreskami)
+{
+    Uzytkownik odczytywanyUzytkownik;
+    string pojedynczaDanaUzytkownika = "";
+    int numerOdczytywanejDanej = 1;
+
+    for (unsigned int pozycjaZnaku = 0; pozycjaZnaku < daneUzytkownikaOddzielonePionowymiKreskami.length(); pozycjaZnaku++) {
+        if (daneUzytkownikaOddzielonePionowymiKreskami[pozycjaZnaku] != '|') {
+            pojedynczaDanaUzytkownika += daneUzytkownikaOddzielonePionowymiKreskami[pozycjaZnaku];
+        }
+        else {
+            switch(numerOdczytywanejDanej) {
+            case 1:
+                odczytywanyUzytkownik.id = atoi(pojedynczaDanaUzytkownika.c_str());
+                break;
+            case 2:
+                odczytywanyUzytkownik.nazwa = pojedynczaDanaUzytkownika;
+                break;
+            case 3:
+                odczytywanyUzytkownik.haslo = pojedynczaDanaUzytkownika;
+                break;
+            }
+            pojedynczaDanaUzytkownika = "";
+            numerOdczytywanejDanej++;
+        }
+    }
+    return odczytywanyUzytkownik;
+}
+
 void odczytPlikuUzytkownicy (vector <Uzytkownik> &uzytkownicy) {
     fstream plik;
     plik.open("Uzytkownicy.txt", ios::in);
-    string linia;
-    int nrLinijki = 1;
+    Uzytkownik uzytkownik;
+    string daneUzytkownikaOddzielonePionowymiKreskami = "";
 
     if (plik.good()) {
-        while (getline(plik,linia,'|')) {
-            switch (nrLinijki) {
-            case 1:
-                zwiekszIloscUzytkownikow(uzytkownicy);
-                uzytkownicy[uzytkownicy.size() - 1].id = atoi(linia.c_str());
-                break;
-            case 2:
-                uzytkownicy[uzytkownicy.size() - 1].nazwa = linia;
-                break;
-            case 3: {
-                uzytkownicy[uzytkownicy.size() - 1].haslo = linia;
-                nrLinijki = 0;
-            }
-            break;
-            }
-            nrLinijki++;
+        while (getline(plik,daneUzytkownikaOddzielonePionowymiKreskami)) {
+            uzytkownik = pobierzDaneUzytkownika (daneUzytkownikaOddzielonePionowymiKreskami);
+
+            uzytkownicy.push_back(uzytkownik);
         }
         plik.close();
     }
