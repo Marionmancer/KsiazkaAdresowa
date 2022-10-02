@@ -146,8 +146,9 @@ void zapisUzytkownikowDoPliku (vector <Uzytkownik> &uzytkownicy) {
 
 void rejestracjaUzytkownika (vector <Uzytkownik> &uzytkownicy) {
 
+    Uzytkownik rejestrowanyUzytkownik;
     string nazwa, haslo;
-    zwiekszIloscUzytkownikow (uzytkownicy);
+    //zwiekszIloscUzytkownikow (uzytkownicy);
 
     cout << "Podaj nazwe uzytkownika: ";
     cin >> nazwa;
@@ -165,15 +166,16 @@ void rejestracjaUzytkownika (vector <Uzytkownik> &uzytkownicy) {
     cout << "Podaj haslo: ";
     cin >> haslo;
 
-    uzytkownicy[uzytkownicy.size() - 1].nazwa = nazwa;
-    uzytkownicy[uzytkownicy.size() - 1].haslo = haslo;
+    rejestrowanyUzytkownik.nazwa = nazwa;
+    rejestrowanyUzytkownik.haslo = haslo;
 
     if ((uzytkownicy.size() - 1) == 0){
-        uzytkownicy[uzytkownicy.size() - 1].id = 1;
+        rejestrowanyUzytkownik.id = 1;
     }
     else
-        uzytkownicy[uzytkownicy.size() - 1].id = uzytkownicy [uzytkownicy.size() - 2].id + 1;
+        rejestrowanyUzytkownik.id = uzytkownicy [uzytkownicy.size() - 1].id + 1;
 
+    uzytkownicy.push_back(rejestrowanyUzytkownik);
     zapisUzytkownikowDoPliku (uzytkownicy);
 
     cout << "Konto zostalo zalozone " << endl;
