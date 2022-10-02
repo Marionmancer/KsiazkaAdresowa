@@ -392,11 +392,11 @@ void wyswietlDaneWszystkichAdresatow (vector <Adresat> &adresaci, int idZalogowa
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-bool czyAdresatJestWKsiazceAdresowej (vector <Adresat> adresaci, int idAdresataDoSprawdzenia) {
+bool czyAdresatJestWKsiazceAdresowej (vector <Adresat> adresaci, int idAdresataDoSprawdzenia, int idZalogowanegoUzytkownika) {
     bool wynikWyszukiwania = false;
 
     for (unsigned int i = 0; i < adresaci.size(); i++) {
-        if (adresaci[i].id == idAdresataDoSprawdzenia) {
+        if ((adresaci[i].id == idAdresataDoSprawdzenia) && (adresaci[i].idUzytkownika == idZalogowanegoUzytkownika)) {
             wynikWyszukiwania = true;
             i = adresaci.size();
         }
@@ -404,7 +404,7 @@ bool czyAdresatJestWKsiazceAdresowej (vector <Adresat> adresaci, int idAdresataD
     return wynikWyszukiwania;
 }
 
-int podbierzIdAdresataDoEdycji (vector <Adresat> adresaci) {
+int podbierzIdAdresataDoEdycji (vector <Adresat> adresaci, int idZalogowanegoUzytkownika) {
 
     int idEdytowanegoAdresata = 0;
 
@@ -412,12 +412,12 @@ int podbierzIdAdresataDoEdycji (vector <Adresat> adresaci) {
         system("cls");
         cout << "Podaj ID edytowanego adresata" << endl;
         cin >> idEdytowanegoAdresata;
-        if (!czyAdresatJestWKsiazceAdresowej(adresaci, idEdytowanegoAdresata)) {
+        if (!czyAdresatJestWKsiazceAdresowej(adresaci, idEdytowanegoAdresata, idZalogowanegoUzytkownika)) {
             cout << "Brak w ksiazce adresata o tym numerze ID" << endl;
             Sleep (1000);
             system("cls");
         }
-    } while (!czyAdresatJestWKsiazceAdresowej(adresaci, idEdytowanegoAdresata));
+    } while (!czyAdresatJestWKsiazceAdresowej(adresaci, idEdytowanegoAdresata, idZalogowanegoUzytkownika));
     return idEdytowanegoAdresata;
 }
 
@@ -453,8 +453,8 @@ int podajPolozenieAdresataPoId (vector <Adresat> adresaci, int idAdresataDoSpraw
     return polozenieAdresataPoId;
 }
 
-void edycjaDanychAdresata (vector <Adresat> &adresaci) {
-    int idEdytowanegoAdresata = podbierzIdAdresataDoEdycji (adresaci);
+void edycjaDanychAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
+    int idEdytowanegoAdresata = podbierzIdAdresataDoEdycji (adresaci, idZalogowanegoUzytkownika);
     int polozenieAdresataPoNumerzeId = podajPolozenieAdresataPoId (adresaci, idEdytowanegoAdresata);
 
     wyswietlMenuEdycjiDanychAdresatow();
@@ -516,16 +516,16 @@ bool czyUzytkownikPotwierdzilUsuniecieAdresata () {
     else return false;
 }
 
-void usunAdresata (vector <Adresat> &adresaci) {
+void usunAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
     int idAdresataDoUsuniecia = 0;
     cout << "Podaj ID adresata do usuniecia z ksiazki adresowej" << endl;
 
     do {
         cin >> idAdresataDoUsuniecia;
-        if (!czyAdresatJestWKsiazceAdresowej (adresaci, idAdresataDoUsuniecia)) {
+        if (!czyAdresatJestWKsiazceAdresowej (adresaci, idAdresataDoUsuniecia, idZalogowanegoUzytkownika)) {
             cout << "Adresata o podanym ID nie ma w Ksiazce Adresowej. Podaj poprawne ID." << endl;
         }
-    } while (!czyAdresatJestWKsiazceAdresowej (adresaci, idAdresataDoUsuniecia));
+    } while (!czyAdresatJestWKsiazceAdresowej (adresaci, idAdresataDoUsuniecia, idZalogowanegoUzytkownika));
 
     if (czyUzytkownikPotwierdzilUsuniecieAdresata()) {
         for (unsigned int i = 0; i < adresaci.size(); i++) {
@@ -606,7 +606,7 @@ int main() {
                     cout << "Baza adresatow jest pusta. Dodaj kogos" << endl;
                     Sleep (1000);
                 } else
-                    usunAdresata (adresaci);
+                    usunAdresata (adresaci, idZalogowanegoUzytkownika);
                 break;
             }
             case'6':{
@@ -614,7 +614,7 @@ int main() {
                     cout << "Baza adresatow jest pusta. Dodaj kogos" << endl;
                     Sleep (1000);
                 } else
-                    edycjaDanychAdresata(adresaci);
+                    edycjaDanychAdresata(adresaci, idZalogowanegoUzytkownika);
                 break;
             }
             case'7':
