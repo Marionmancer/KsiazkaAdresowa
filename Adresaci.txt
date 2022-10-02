@@ -1,0 +1,2 @@
+1|3|Kamil|Szamajda|123|k@|kasm|
+2|3|Kasia|Inglot|2313|kasi@|313|

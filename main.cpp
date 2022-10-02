@@ -64,7 +64,7 @@ void wyswietlMenuEdycjiDanychAdresatow () {
 
 void odczytPlikuAdresaci (vector <Adresat> &adresaci) {
     fstream plik;
-    plik.open("ksiazka_adresowa.txt", ios::in);
+    plik.open("Adresaci.txt", ios::in);
     string linia;
     int nrLinijki = 1;
 
@@ -107,7 +107,7 @@ void zapisUzytkownikowDoPliku (vector <Uzytkownik> &uzytkownicy) {
     const int PIERWSZY_RECORD_W_PLIKU = 0;
     plik.open("Uzytkownicy.txt", ios::out | ios::app);
 
-    if ((uzytkownicy.size() - 1) != PIERWSZY_RECORD_W_PLIKU) plik << endl;
+    if ((uzytkownicy.size() - 1) > PIERWSZY_RECORD_W_PLIKU) plik << endl;
 
     plik << uzytkownicy[uzytkownicy.size() - 1].id << "|";
     plik << uzytkownicy[uzytkownicy.size() - 1].nazwa << "|";
@@ -220,9 +220,9 @@ bool czyEmailPoprawny(string email) {
 void zapisAdresatowDoPliku (vector <Adresat> &adresaci) {
     fstream plik;
     const int PIERWSZY_RECORD_W_PLIKU = 0;
-    plik.open("ksiazka_adresowa.txt", ios::out | ios::app);
+    plik.open("Adresaci.txt", ios::out | ios::app);
 
-    if ((adresaci.size() - 1) != PIERWSZY_RECORD_W_PLIKU) plik << endl;
+    if ((adresaci.size() - 1) > PIERWSZY_RECORD_W_PLIKU) plik << endl;
 
     plik << adresaci[adresaci.size() - 1].id << "|";
     plik << adresaci[adresaci.size() - 1].idUzytkownika << "|";
@@ -375,7 +375,7 @@ int podbierzIdAdresataDoEdycji (vector <Adresat> adresaci) {
 void nadpiszPlik (vector <Adresat> &adresaci) {
     fstream plik;
     const int PIERWSZY_RECORD_W_PLIKU = 0;
-    plik.open("ksiazka_adresowa.txt", ios::out);
+    plik.open("Adresaci.txt", ios::out);
 
     if (plik.good() == true) {
         for (unsigned int i = 0; i < adresaci.size(); i++) {
