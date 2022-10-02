@@ -20,12 +20,12 @@ void zwiekszIloscUzytkownikow (vector <Uzytkownik> &uzytkownicy) {
 }
 
 struct Adresat {
-    int id;
+    int id, idUzytkownika;
     string imie = "", nazwisko = "", numerTelefonu = "", email = "", adres = "";
 };
 
 void zwiekszIloscAdresatow (vector <Adresat> &adresaci) {
-    Adresat nowyAdresat = { 0, "", "" , "" , "" , "" };
+    Adresat nowyAdresat = { 0, 0, "", "" , "" , "" , "" };
     adresaci.push_back(nowyAdresat);
 }
 
@@ -76,18 +76,21 @@ void odczytPlikuAdresaci (vector <Adresat> &adresaci) {
                 adresaci[adresaci.size() - 1].id = atoi(linia.c_str());
                 break;
             case 2:
-                adresaci[adresaci.size() - 1].imie = linia;
+                adresaci[adresaci.size() - 1].idUzytkownika = atoi(linia.c_str());
                 break;
             case 3:
-                adresaci[adresaci.size() - 1].nazwisko = linia;
+                adresaci[adresaci.size() - 1].imie = linia;
                 break;
             case 4:
-                adresaci[adresaci.size() - 1].numerTelefonu = linia;
+                adresaci[adresaci.size() - 1].nazwisko = linia;
                 break;
             case 5:
+                adresaci[adresaci.size() - 1].numerTelefonu = linia;
+                break;
+            case 6:
                 adresaci[adresaci.size() - 1].email = linia;
                 break;
-            case 6: {
+            case 7: {
                 adresaci[adresaci.size() - 1].adres = linia;
                 nrLinijki = 0;
             }
@@ -222,6 +225,7 @@ void zapisAdresatowDoPliku (vector <Adresat> &adresaci) {
     if ((adresaci.size() - 1) != PIERWSZY_RECORD_W_PLIKU) plik << endl;
 
     plik << adresaci[adresaci.size() - 1].id << "|";
+    plik << adresaci[adresaci.size() - 1].idUzytkownika << "|";
     plik << adresaci[adresaci.size() - 1].imie << "|";
     plik << adresaci[adresaci.size() - 1].nazwisko << "|";
     plik << adresaci[adresaci.size() - 1].numerTelefonu << "|";
@@ -231,10 +235,13 @@ void zapisAdresatowDoPliku (vector <Adresat> &adresaci) {
     plik.close();
 }
 
-void dodajAdresata (vector <Adresat> &adresaci) {
+void dodajAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
 
     zwiekszIloscAdresatow(adresaci);
     cout << "Podaj imie: " << endl;
+
+    adresaci[adresaci.size() - 1].idUzytkownika = idZalogowanegoUzytkownika;
+
     do {
         adresaci[adresaci.size() - 1].imie = wczytajLinieTekstu();
         if (czyTekstMaDozwoloneZnaki(adresaci[adresaci.size() - 1].imie) == false) {
@@ -523,7 +530,7 @@ int main() {
             char wybor = getch();
             switch (wybor) {
             case'1':
-                    dodajAdresata (adresaci);
+                    dodajAdresata (adresaci, idZalogowanegoUzytkownika);
                 break;
 
             case'2': {
