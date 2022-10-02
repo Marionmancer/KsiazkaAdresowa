@@ -518,30 +518,38 @@ bool czyUzytkownikPotwierdzilUsuniecieAdresata () {
 
 void usunAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
     int idAdresataDoUsuniecia = 0;
+    bool wynikWyszukiwaniaAdresata = false;
     cout << "Podaj ID adresata do usuniecia z ksiazki adresowej" << endl;
 
     do {
         cin >> idAdresataDoUsuniecia;
-        if (!czyAdresatJestWKsiazceAdresowej (adresaci, idAdresataDoUsuniecia, idZalogowanegoUzytkownika)) {
-            cout << "Adresata o podanym ID nie ma w Ksiazce Adresowej. Podaj poprawne ID." << endl;
-        }
-    } while (!czyAdresatJestWKsiazceAdresowej (adresaci, idAdresataDoUsuniecia, idZalogowanegoUzytkownika));
+        wynikWyszukiwaniaAdresata = czyAdresatJestWKsiazceAdresowej (adresaci, idAdresataDoUsuniecia, idZalogowanegoUzytkownika);
 
-    if (czyUzytkownikPotwierdzilUsuniecieAdresata()) {
-        for (unsigned int i = 0; i < adresaci.size(); i++) {
-            if (adresaci[i].id == idAdresataDoUsuniecia) {
-                adresaci.erase(adresaci.begin() + i);
-                i = adresaci.size();
-                nadpiszPlikAdresaci (adresaci);
-                cout << "Adresat o wskazanym ID zostal usuniety z Ksiazki Adresowej" << endl;
+        if (!wynikWyszukiwaniaAdresata) {
+            cout << "Adresata o podanym ID nie ma w Ksiazce Adresowej." << endl;
+            cout << "Wcisnij 'n' aby wrocic do poprzedniego menu lub dowolny klawisz by podac inne ID" << endl;
+            char wybor = getch();
+            if (wybor == 'n') wynikWyszukiwaniaAdresata = true;
+            else cout << "Podaj ID adresata do usuniecia" << endl;
+        }
+        else if (wynikWyszukiwaniaAdresata) {
+            if (czyUzytkownikPotwierdzilUsuniecieAdresata()) {
+                for (unsigned int i = 0; i < adresaci.size(); i++) {
+                    if (adresaci[i].id == idAdresataDoUsuniecia) {
+                        adresaci.erase(adresaci.begin() + i);
+                        i = adresaci.size();
+                        nadpiszPlikAdresaci (adresaci);
+                        cout << "Adresat o wskazanym ID zostal usuniety z Ksiazki Adresowej" << endl;
+                        system("PAUSE");
+                    }
+                }
+            }
+            else {
+                cout << "Operacja usuniecia adresata anulowana przez uzytkownika" << endl;
                 system("PAUSE");
             }
         }
-    }
-    else {
-        cout << "Operacja usuniecia adresata anulowana przez uzytkownika" << endl;
-        system("PAUSE");
-    }
+    } while (!wynikWyszukiwaniaAdresata);
 }
 
 int main() {
