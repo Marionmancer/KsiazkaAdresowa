@@ -19,11 +19,6 @@ struct Adresat {
     string imie = "", nazwisko = "", numerTelefonu = "", email = "", adres = "";
 };
 
-void zwiekszIloscAdresatow (vector <Adresat> &adresaci) {
-    Adresat nowyAdresat = { 0, 0, "", "" , "" , "" , "" };
-    adresaci.push_back(nowyAdresat);
-}
-
 void wyswietlMenuLogowania () {
     system("cls");
     cout << "1. Rejestracja" << endl;
@@ -57,8 +52,8 @@ void wyswietlMenuEdycjiDanychAdresatow () {
     cout << "6. Powrot do menu glownego" << endl << endl;
 }
 
-Uzytkownik pobierzDaneUzytkownika(string daneUzytkownikaOddzielonePionowymiKreskami)
-{
+Uzytkownik pobierzDaneUzytkownika(string daneUzytkownikaOddzielonePionowymiKreskami) {
+
     Uzytkownik odczytywanyUzytkownik;
     string pojedynczaDanaUzytkownika = "";
     int numerOdczytywanejDanej = 1;
@@ -102,41 +97,58 @@ void odczytPlikuUzytkownicy (vector <Uzytkownik> &uzytkownicy) {
     }
 }
 
+Adresat pobierzDaneAdresata(string daneAdresataOddzielonePionowymiKreskami) {
+
+    Adresat odczytywanyAdresat;
+    string pojedynczaDanaAdresata = "";
+    int numerOdczytywanejDanej = 1;
+
+    for (unsigned int pozycjaZnaku = 0; pozycjaZnaku < daneAdresataOddzielonePionowymiKreskami.length(); pozycjaZnaku++) {
+        if (daneAdresataOddzielonePionowymiKreskami[pozycjaZnaku] != '|') {
+            pojedynczaDanaAdresata += daneAdresataOddzielonePionowymiKreskami[pozycjaZnaku];
+        }
+        else {
+            switch(numerOdczytywanejDanej) {
+            case 1:
+                odczytywanyAdresat.id = atoi(pojedynczaDanaAdresata.c_str());
+                break;
+            case 2:
+                odczytywanyAdresat.idUzytkownika = atoi(pojedynczaDanaAdresata.c_str());
+                break;
+            case 3:
+                odczytywanyAdresat.imie = pojedynczaDanaAdresata;
+                break;
+            case 4:
+                odczytywanyAdresat.nazwisko = pojedynczaDanaAdresata;
+                break;
+            case 5:
+                odczytywanyAdresat.numerTelefonu = pojedynczaDanaAdresata;
+                break;
+            case 6:
+                odczytywanyAdresat.email = pojedynczaDanaAdresata;
+                break;
+            case 7:
+                odczytywanyAdresat.adres = pojedynczaDanaAdresata;
+                break;
+            }
+            pojedynczaDanaAdresata = "";
+            numerOdczytywanejDanej++;
+        }
+    }
+    return odczytywanyAdresat;
+}
+
 void odczytPlikuAdresaci (vector <Adresat> &adresaci) {
     fstream plik;
     plik.open("Adresaci.txt", ios::in);
-    string linia;
-    int nrLinijki = 1;
+    Adresat adresat;
+    string daneAdresataOddzielonePionowymiKreskami = "";
 
     if (plik.good()) {
-        while (getline(plik,linia,'|')) {
-            switch (nrLinijki) {
-            case 1:
-                zwiekszIloscAdresatow(adresaci);
-                adresaci[adresaci.size() - 1].id = atoi(linia.c_str());
-                break;
-            case 2:
-                adresaci[adresaci.size() - 1].idUzytkownika = atoi(linia.c_str());
-                break;
-            case 3:
-                adresaci[adresaci.size() - 1].imie = linia;
-                break;
-            case 4:
-                adresaci[adresaci.size() - 1].nazwisko = linia;
-                break;
-            case 5:
-                adresaci[adresaci.size() - 1].numerTelefonu = linia;
-                break;
-            case 6:
-                adresaci[adresaci.size() - 1].email = linia;
-                break;
-            case 7: {
-                adresaci[adresaci.size() - 1].adres = linia;
-                nrLinijki = 0;
-            }
-            break;
-            }
-            nrLinijki++;
+        while (getline(plik,daneAdresataOddzielonePionowymiKreskami)) {
+            adresat = pobierzDaneAdresata (daneAdresataOddzielonePionowymiKreskami);
+
+            adresaci.push_back(adresat);
         }
         plik.close();
     }
