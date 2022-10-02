@@ -359,11 +359,11 @@ void wyszukajAdresataPoImieniu (vector <Adresat> &adresaci, string szukaneImie, 
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-void wyszukajAdresataPoNazwisku (vector <Adresat> &adresaci, string szukaneNazwisko) {
+void wyszukajAdresataPoNazwisku (vector <Adresat> &adresaci, string szukaneNazwisko, int idZalogowanegoUzytkownika) {
     int iloscWynikow = 0;
 
     for (unsigned int i = 0; i < adresaci.size(); i++) {
-        if (adresaci[i].nazwisko == szukaneNazwisko) {
+        if ((adresaci[i].nazwisko == szukaneNazwisko) && (adresaci[i].idUzytkownika == idZalogowanegoUzytkownika)) {
             wyswietlDaneAdresata(adresaci, i);
             ++iloscWynikow;
         }
@@ -376,13 +376,16 @@ void wyszukajAdresataPoNazwisku (vector <Adresat> &adresaci, string szukaneNazwi
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-void wyswietlDaneWszystkichAdresatow (vector <Adresat> &adresaci) {
+void wyswietlDaneWszystkichAdresatow (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
+    int iloscAdresatowUzytkownika = 0;
+
     for (unsigned int i = 0; i < adresaci.size(); i++) {
-        if (adresaci.size() > 0) {
+        if ((adresaci.size() > 0) && (adresaci[i].idUzytkownika == idZalogowanegoUzytkownika)) {
             wyswietlDaneAdresata(adresaci, i);
+            iloscAdresatowUzytkownika++;
         }
     }
-    if (adresaci.size() == 0) {
+    if ((adresaci.size() == 0) || (iloscAdresatowUzytkownika == 0)) {
         cout << "Nie masz adresatow w bazie :/. Dodaj kogos! ;)" << endl;
         system("PAUSE");
     }
@@ -590,12 +593,12 @@ int main() {
             case'3':{
                     cout << "Podaj nazwisko do wyszukania" <<endl;
                 string szukaneNazwisko = wczytajLinieTekstu();
-                wyszukajAdresataPoNazwisku (adresaci, szukaneNazwisko);
+                wyszukajAdresataPoNazwisku (adresaci, szukaneNazwisko, idZalogowanegoUzytkownika);
                 break;
             }
             case'4':{
                     cout << "Lista danych Twoich adresatow wyglada nastepujaco: " << endl;
-                wyswietlDaneWszystkichAdresatow(adresaci);
+                wyswietlDaneWszystkichAdresatow(adresaci, idZalogowanegoUzytkownika);
                 break;
             }
             case'5':{
