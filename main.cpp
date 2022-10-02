@@ -62,7 +62,7 @@ void wyswietlMenuEdycjiDanychAdresatow () {
     cout << "6. Powrot do menu glownego" << endl << endl;
 }
 
-void odczytPliku (vector <Adresat> &adresaci) {
+void odczytPlikuAdresaci (vector <Adresat> &adresaci) {
     fstream plik;
     plik.open("ksiazka_adresowa.txt", ios::in);
     string linia;
@@ -99,7 +99,7 @@ void odczytPliku (vector <Adresat> &adresaci) {
     }
 }
 
-void rejestracja (vector <Uzytkownik> &uzytkownicy) {
+void rejestracjaUzytkownika (vector <Uzytkownik> &uzytkownicy) {
 
     string nazwa, haslo;
     zwiekszIloscUzytkownikow (uzytkownicy);
@@ -122,7 +122,14 @@ void rejestracja (vector <Uzytkownik> &uzytkownicy) {
 
     uzytkownicy[uzytkownicy.size() - 1].nazwa = nazwa;
     uzytkownicy[uzytkownicy.size() - 1].haslo = haslo;
-    uzytkownicy[uzytkownicy.size() - 1].id = uzytkownicy[uzytkownicy.size() - 2].id + 1;
+
+    if ((uzytkownicy.size() - 1) == 0){
+        uzytkownicy[uzytkownicy.size() - 1].id = 1;
+    }
+    else
+        uzytkownicy[uzytkownicy.size() - 1].id = uzytkownicy [uzytkownicy.size() - 2].id + 1;
+
+    zapisUzytkownikowDoPliku (uzytkownicy);
 
     cout << "Konto zostalo zalozone " << endl;
     system("PAUSE");
@@ -193,19 +200,19 @@ bool czyEmailPoprawny(string email) {
     }
 }
 
-void zapisDoPliku (vector <Adresat> &adresaci, int i) {
+void zapisAdresatowDoPliku (vector <Adresat> &adresaci) {
     fstream plik;
     const int PIERWSZY_RECORD_W_PLIKU = 0;
     plik.open("ksiazka_adresowa.txt", ios::out | ios::app);
 
-    if (i != PIERWSZY_RECORD_W_PLIKU) plik << endl;
+    if ((adresaci.size() - 1) != PIERWSZY_RECORD_W_PLIKU) plik << endl;
 
-    plik << adresaci[i].id << "|";
-    plik << adresaci[i].imie << "|";
-    plik << adresaci[i].nazwisko << "|";
-    plik << adresaci[i].numerTelefonu << "|";
-    plik << adresaci[i].email << "|";
-    plik << adresaci[i].adres << "|";
+    plik << adresaci[adresaci.size() - 1].id << "|";
+    plik << adresaci[adresaci.size() - 1].imie << "|";
+    plik << adresaci[adresaci.size() - 1].nazwisko << "|";
+    plik << adresaci[adresaci.size() - 1].numerTelefonu << "|";
+    plik << adresaci[adresaci.size() - 1].email << "|";
+    plik << adresaci[adresaci.size() - 1].adres << "|";
 
     plik.close();
 }
@@ -249,7 +256,7 @@ void dodajAdresata (vector <Adresat> &adresaci) {
     else
         adresaci[adresaci.size() - 1].id = adresaci [adresaci.size() - 2].id + 1;
 
-    zapisDoPliku (adresaci, adresaci.size() - 1);
+    zapisAdresatowDoPliku (adresaci);
     cout << "Dodano osobe do bazy adresatow" << endl;
     Sleep(1000);
 }
@@ -471,7 +478,7 @@ int main() {
     vector <Adresat> adresaci;
     int idZalogowanegoUzytkownika = 0;
 
-    odczytPliku (adresaci);
+    odczytPlikuAdresaci (adresaci);
 
     while (true) {
         if (idZalogowanegoUzytkownika == 0) {
@@ -482,7 +489,7 @@ int main() {
             switch (wybor) {
 
             case'1':
-                    rejestracja(uzytkownicy);
+                    rejestracjaUzytkownika(uzytkownicy);
                 break;
 
             case'2':
