@@ -226,7 +226,7 @@ void nadpiszPlikUzytkownicy (vector <Uzytkownik> &uzytkownicy) {
     }
 }
 
-void zmianaHasla(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika) {
+void zmianaHaslaLogowania(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika) {
     string haslo;
     cout << "Podaj nowe haslo: " << endl;
     cin >> haslo;
@@ -332,21 +332,21 @@ void wyswietlKomunikatZamknieciaWynikowWyszukiwania () {
     system("PAUSE");
 }
 
-void wyswietlDaneOsoby (vector <Adresat> &adresaci, int idOsoby) {
-    cout << adresaci[idOsoby].id << "|";
-    cout << adresaci[idOsoby].imie << "|";
-    cout << adresaci[idOsoby].nazwisko << "|";
-    cout << adresaci[idOsoby].numerTelefonu << "|";
-    cout << adresaci[idOsoby].email << "|";
-    cout << adresaci[idOsoby].adres << "|" << endl;
+void wyswietlDaneAdresata (vector <Adresat> &adresaci, int idAdresata) {
+    cout << adresaci[idAdresata].id << "|";
+    cout << adresaci[idAdresata].imie << "|";
+    cout << adresaci[idAdresata].nazwisko << "|";
+    cout << adresaci[idAdresata].numerTelefonu << "|";
+    cout << adresaci[idAdresata].email << "|";
+    cout << adresaci[idAdresata].adres << "|" << endl;
 }
 
-void wyszukajPoImieniu (vector <Adresat> &adresaci, string szukaneImie) {
+void wyszukajAdresataPoImieniu (vector <Adresat> &adresaci, string szukaneImie) {
     int iloscWynikow = 0;
 
     for (unsigned int i = 0; i < adresaci.size(); i++) {
         if (adresaci[i].imie == szukaneImie) {
-            wyswietlDaneOsoby(adresaci, i);
+            wyswietlDaneAdresata(adresaci, i);
             ++iloscWynikow;
         }
     }
@@ -358,12 +358,12 @@ void wyszukajPoImieniu (vector <Adresat> &adresaci, string szukaneImie) {
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-void wyszukajPoNazwisku (vector <Adresat> &adresaci, string szukaneNazwisko) {
+void wyszukajAdresataPoNazwisku (vector <Adresat> &adresaci, string szukaneNazwisko) {
     int iloscWynikow = 0;
 
     for (unsigned int i = 0; i < adresaci.size(); i++) {
         if (adresaci[i].nazwisko == szukaneNazwisko) {
-            wyswietlDaneOsoby(adresaci, i);
+            wyswietlDaneAdresata(adresaci, i);
             ++iloscWynikow;
         }
     }
@@ -375,10 +375,10 @@ void wyszukajPoNazwisku (vector <Adresat> &adresaci, string szukaneNazwisko) {
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-void wyswietlDaneWszystkichOsob (vector <Adresat> &adresaci) {
+void wyswietlDaneWszystkichAdresatow (vector <Adresat> &adresaci) {
     for (unsigned int i = 0; i < adresaci.size(); i++) {
         if (adresaci.size() > 0) {
-            wyswietlDaneOsoby(adresaci, i);
+            wyswietlDaneAdresata(adresaci, i);
         }
     }
     if (adresaci.size() == 0) {
@@ -449,7 +449,7 @@ int podajPolozenieAdresataPoId (vector <Adresat> adresaci, int idAdresataDoSpraw
     return polozenieAdresataPoId;
 }
 
-void dokonajEdycjiDanychAdresata (vector <Adresat> &adresaci) {
+void edycjaDanychAdresata (vector <Adresat> &adresaci) {
     int idEdytowanegoAdresata = podbierzIdAdresataDoEdycji (adresaci);
     int polozenieAdresataPoNumerzeId = podajPolozenieAdresataPoId (adresaci, idEdytowanegoAdresata);
 
@@ -583,18 +583,18 @@ int main() {
             case'2': {
                     cout << "Podaj imie do wyszukania" <<endl;
                 string szukaneImie = wczytajLinieTekstu();
-                wyszukajPoImieniu (adresaci, szukaneImie);
+                wyszukajAdresataPoImieniu (adresaci, szukaneImie);
                 break;
             }
             case'3':{
                     cout << "Podaj nazwisko do wyszukania" <<endl;
                 string szukaneNazwisko = wczytajLinieTekstu();
-                wyszukajPoNazwisku (adresaci, szukaneNazwisko);
+                wyszukajAdresataPoNazwisku (adresaci, szukaneNazwisko);
                 break;
             }
             case'4':{
                     cout << "Lista danych Twoich adresatow wyglada nastepujaco: " << endl;
-                wyswietlDaneWszystkichOsob(adresaci);
+                wyswietlDaneWszystkichAdresatow(adresaci);
                 break;
             }
             case'5':{
@@ -610,11 +610,11 @@ int main() {
                     cout << "Baza adresatow jest pusta. Dodaj kogos" << endl;
                     Sleep (1000);
                 } else
-                    dokonajEdycjiDanychAdresata(adresaci);
+                    edycjaDanychAdresata(adresaci);
                 break;
             }
             case'7':
-                zmianaHasla(uzytkownicy, idZalogowanegoUzytkownika);
+                zmianaHaslaLogowania(uzytkownicy, idZalogowanegoUzytkownika);
             break;
 
             case'9':
