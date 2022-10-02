@@ -138,7 +138,7 @@ Adresat pobierzDaneAdresata(string daneAdresataOddzielonePionowymiKreskami) {
     return odczytywanyAdresat;
 }
 
-void odczytPlikuAdresaci (vector <Adresat> &adresaci) {
+void odczytPlikuAdresaci (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
     fstream plik;
     plik.open("Adresaci.txt", ios::in);
     Adresat adresat;
@@ -148,8 +148,10 @@ void odczytPlikuAdresaci (vector <Adresat> &adresaci) {
         while (getline(plik,daneAdresataOddzielonePionowymiKreskami)) {
             adresat = pobierzDaneAdresata (daneAdresataOddzielonePionowymiKreskami);
 
-            adresaci.push_back(adresat);
+            if (adresat.idUzytkownika == idZalogowanegoUzytkownika) adresaci.push_back(adresat);
         }
+        cout << "Rozmiar vectora adresaci: " << adresaci.size();
+        system ("PAUSE");
         plik.close();
     }
 }
@@ -585,7 +587,6 @@ int main() {
     int idZalogowanegoUzytkownika = 0;
 
     odczytPlikuUzytkownicy (uzytkownicy);
-    odczytPlikuAdresaci (adresaci);
 
     while (true) {
         if (idZalogowanegoUzytkownika == 0) {
@@ -599,10 +600,11 @@ int main() {
                     rejestracjaUzytkownika(uzytkownicy);
                 break;
 
-            case'2':
+            case'2': {
                     idZalogowanegoUzytkownika = logowanie(uzytkownicy);
+                    odczytPlikuAdresaci (adresaci, idZalogowanegoUzytkownika);
                 break;
-
+            }
             case'9':
                     exit(0);
                 break;
