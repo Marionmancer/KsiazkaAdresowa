@@ -381,6 +381,7 @@ void nadpiszPlik (vector <Adresat> &adresaci) {
         for (unsigned int i = 0; i < adresaci.size(); i++) {
             if (i != PIERWSZY_RECORD_W_PLIKU) plik << endl;
             plik << adresaci[i].id << "|";
+            plik << adresaci[i].idUzytkownika << "|";
             plik << adresaci[i].imie << "|";
             plik << adresaci[i].nazwisko << "|";
             plik << adresaci[i].numerTelefonu << "|";
