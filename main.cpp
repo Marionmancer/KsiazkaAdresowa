@@ -148,7 +148,6 @@ void rejestracjaUzytkownika (vector <Uzytkownik> &uzytkownicy) {
 
     Uzytkownik rejestrowanyUzytkownik;
     string nazwa, haslo;
-    //zwiekszIloscUzytkownikow (uzytkownicy);
 
     cout << "Podaj nazwe uzytkownika: ";
     cin >> nazwa;
@@ -169,7 +168,7 @@ void rejestracjaUzytkownika (vector <Uzytkownik> &uzytkownicy) {
     rejestrowanyUzytkownik.nazwa = nazwa;
     rejestrowanyUzytkownik.haslo = haslo;
 
-    if ((uzytkownicy.size() - 1) == 0){
+    if (uzytkownicy.size() == 0){
         rejestrowanyUzytkownik.id = 1;
     }
     else
@@ -284,46 +283,48 @@ void zapisAdresatowDoPliku (vector <Adresat> &adresaci) {
 
 void dodajAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
 
-    zwiekszIloscAdresatow(adresaci);
+    Adresat dodawanyAdresat;
+
     cout << "Podaj imie: " << endl;
 
-    adresaci[adresaci.size() - 1].idUzytkownika = idZalogowanegoUzytkownika;
+    dodawanyAdresat.idUzytkownika = idZalogowanegoUzytkownika;
 
     do {
-        adresaci[adresaci.size() - 1].imie = wczytajLinieTekstu();
-        if (czyTekstMaDozwoloneZnaki(adresaci[adresaci.size() - 1].imie) == false) {
+        dodawanyAdresat.imie = wczytajLinieTekstu();
+        if (czyTekstMaDozwoloneZnaki(dodawanyAdresat.imie) == false) {
             cout << "Wprowadzone imie jest niepoprawne, wprowadz raz jeszcze" << endl;
         }
-    } while (czyTekstMaDozwoloneZnaki(adresaci[adresaci.size() - 1].imie) == false);
+    } while (czyTekstMaDozwoloneZnaki(dodawanyAdresat.imie) == false);
 
     cout << "Podaj nazwisko: " << endl;
     do {
-        adresaci[adresaci.size() - 1].nazwisko = wczytajLinieTekstu();
-        if (czyTekstMaDozwoloneZnaki(adresaci[adresaci.size() - 1].nazwisko) == false) {
+        dodawanyAdresat.nazwisko = wczytajLinieTekstu();
+        if (czyTekstMaDozwoloneZnaki(dodawanyAdresat.nazwisko) == false) {
             cout << "Wprowadzone nazwisko jest niepoprawne, wprowadz raz jeszcze" << endl;
         }
-    } while (czyTekstMaDozwoloneZnaki(adresaci[adresaci.size() - 1].nazwisko) == false);
+    } while (czyTekstMaDozwoloneZnaki(dodawanyAdresat.nazwisko) == false);
 
     cout << "Podaj numer telefonu: " << endl;
-    adresaci[adresaci.size() - 1].numerTelefonu = wczytajLinieTekstu();
+    dodawanyAdresat.numerTelefonu = wczytajLinieTekstu();
 
     cout << "Podaj e-mail: " << endl;
     do {
-        adresaci[adresaci.size() - 1].email = wczytajLinieTekstu();
-        if (czyEmailPoprawny(adresaci[adresaci.size() - 1].email) == false) {
+        dodawanyAdresat.email = wczytajLinieTekstu();
+        if (czyEmailPoprawny(dodawanyAdresat.email) == false) {
             cout << "Wprowadzony e-mail jest niepoprawny, wprowadz raz jeszcze" << endl;
         }
-    } while (czyEmailPoprawny(adresaci[adresaci.size() - 1].email) == false);
+    } while (czyEmailPoprawny(dodawanyAdresat.email) == false);
 
     cout << "Podaj adres: " << endl;
-    adresaci[adresaci.size() - 1].adres = wczytajLinieTekstu();
+    dodawanyAdresat.adres = wczytajLinieTekstu();
 
-    if ((adresaci.size() - 1) == 0){
-        adresaci[adresaci.size() - 1].id = 1;
+    if (adresaci.size() == 0){
+        dodawanyAdresat.id = 1;
     }
     else
-        adresaci[adresaci.size() - 1].id = adresaci [adresaci.size() - 2].id + 1;
+        dodawanyAdresat.id = adresaci [adresaci.size() - 1].id + 1;
 
+    adresaci.push_back(dodawanyAdresat);
     zapisAdresatowDoPliku (adresaci);
     cout << "Dodano osobe do bazy adresatow" << endl;
     Sleep(1000);
