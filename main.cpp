@@ -99,6 +99,20 @@ void odczytPlikuAdresaci (vector <Adresat> &adresaci) {
     }
 }
 
+void zapisUzytkownikowDoPliku (vector <Uzytkownik> &uzytkownicy) {
+    fstream plik;
+    const int PIERWSZY_RECORD_W_PLIKU = 0;
+    plik.open("Uzytkownicy.txt", ios::out | ios::app);
+
+    if ((uzytkownicy.size() - 1) != PIERWSZY_RECORD_W_PLIKU) plik << endl;
+
+    plik << uzytkownicy[uzytkownicy.size() - 1].id << "|";
+    plik << uzytkownicy[uzytkownicy.size() - 1].nazwa << "|";
+    plik << uzytkownicy[uzytkownicy.size() - 1].haslo << "|";
+
+    plik.close();
+}
+
 void rejestracjaUzytkownika (vector <Uzytkownik> &uzytkownicy) {
 
     string nazwa, haslo;
