@@ -450,7 +450,7 @@ int podbierzIdAdresataDoEdycji (vector <Adresat> adresaci, int idZalogowanegoUzy
     return idEdytowanegoAdresata;
 }
 
-void nadpiszPlikAdresaci (vector <Adresat> &adresaci) {
+void nadpiszPlikAdresaci (vector <Adresat> &adresaci, int polozenieAdresataPoNumerzeId, string rodzajOperacji) {
     fstream plik;
     const int PIERWSZY_RECORD_W_PLIKU = 0;
     plik.open("Adresaci.txt", ios::out);
@@ -493,7 +493,7 @@ void edycjaDanychAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkow
                 cout << "Wprowadz nowe imie:" << endl;
             cin.sync();
             getline(cin,adresaci[polozenieAdresataPoNumerzeId].imie);
-            nadpiszPlikAdresaci (adresaci);
+            nadpiszPlikAdresaci (adresaci, polozenieAdresataPoNumerzeId, "edytujDaneAdresata");
             system("PAUSE");
             break;
 
@@ -501,7 +501,7 @@ void edycjaDanychAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkow
                 cout << "Wprowadz nowe nazwisko:" << endl;
             cin.sync();
             getline(cin, adresaci[polozenieAdresataPoNumerzeId].nazwisko);
-            nadpiszPlikAdresaci (adresaci);
+            nadpiszPlikAdresaci (adresaci, polozenieAdresataPoNumerzeId, "edytujDaneAdresata");
             system("PAUSE");
             break;
         }
@@ -509,7 +509,7 @@ void edycjaDanychAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkow
                 cout << "Wprowadz nowy numer telefonu:" << endl;
             cin.sync();
             cin >> adresaci[polozenieAdresataPoNumerzeId].numerTelefonu;
-            nadpiszPlikAdresaci (adresaci);
+            nadpiszPlikAdresaci (adresaci, polozenieAdresataPoNumerzeId, "edytujDaneAdresata");
             system("PAUSE");
             break;
         }
@@ -517,7 +517,7 @@ void edycjaDanychAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkow
                 cout << "Wprowadz nowy email:" << endl;
             cin.sync();
             getline(cin, adresaci[polozenieAdresataPoNumerzeId].email);
-            nadpiszPlikAdresaci (adresaci);
+            nadpiszPlikAdresaci (adresaci, polozenieAdresataPoNumerzeId, "edytujDaneAdresata");
             system("PAUSE");
             break;
         }
@@ -525,7 +525,7 @@ void edycjaDanychAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkow
                 cout << "Wprowadz nowy adres:" << endl;
             cin.sync();
             getline(cin, adresaci[polozenieAdresataPoNumerzeId].adres);
-            nadpiszPlikAdresaci (adresaci);
+            nadpiszPlikAdresaci (adresaci, polozenieAdresataPoNumerzeId, "edytujDaneAdresata");
             system("PAUSE");
             break;
         }
@@ -565,9 +565,11 @@ void usunAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
             if (czyUzytkownikPotwierdzilUsuniecieAdresata()) {
                 for (unsigned int i = 0; i < adresaci.size(); i++) {
                     if (adresaci[i].id == idAdresataDoUsuniecia) {
+                        int polozenieAdresataPoNumerzeId = podajPolozenieAdresataPoId (adresaci, idAdresataDoUsuniecia);
+
                         adresaci.erase(adresaci.begin() + i);
                         i = adresaci.size();
-                        nadpiszPlikAdresaci (adresaci);
+                        nadpiszPlikAdresaci (adresaci, polozenieAdresataPoNumerzeId, "usunAdresata");
                         cout << "Adresat o wskazanym ID zostal usuniety z Ksiazki Adresowej" << endl;
                         system("PAUSE");
                     }
