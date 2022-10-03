@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <stdio.h>
 #include <string>
 #include <vector>
 #include <windows.h>
@@ -150,8 +151,6 @@ void odczytPlikuAdresaci (vector <Adresat> &adresaci, int idZalogowanegoUzytkown
 
             if (adresat.idUzytkownika == idZalogowanegoUzytkownika) adresaci.push_back(adresat);
         }
-        cout << "Rozmiar vectora adresaci: " << adresaci.size();
-        system ("PAUSE");
         plik.close();
     }
 }
@@ -451,22 +450,49 @@ int podbierzIdAdresataDoEdycji (vector <Adresat> adresaci, int idZalogowanegoUzy
 }
 
 void nadpiszPlikAdresaci (vector <Adresat> &adresaci, int polozenieAdresataPoNumerzeId, string rodzajOperacji) {
-    fstream plik;
-    const int PIERWSZY_RECORD_W_PLIKU = 0;
-    plik.open("Adresaci.txt", ios::out);
+    fstream plik, plikTymczasowy;
+    const int PIERWSZY_RECORD_W_PLIKU = 1;
+    Adresat adresat;
+    string daneAdresataOddzielonePionowymiKreskami = "";
 
-    if (plik.good() == true) {
-        for (unsigned int i = 0; i < adresaci.size(); i++) {
-            if (i > PIERWSZY_RECORD_W_PLIKU) plik << endl;
-            plik << adresaci[i].id << "|";
-            plik << adresaci[i].idUzytkownika << "|";
-            plik << adresaci[i].imie << "|";
-            plik << adresaci[i].nazwisko << "|";
-            plik << adresaci[i].numerTelefonu << "|";
-            plik << adresaci[i].email << "|";
-            plik << adresaci[i].adres << "|";
+    plik.open("Adresaci.txt", ios::out);
+    plikTymczasowy.open("Adresaci_tymczasowy.txt", ios::out);
+
+    if ((plik.good()) && (plikTymczasowy.good())) {
+        int numerRecorduWPliku = 1;
+
+        while (getline(plik,daneAdresataOddzielonePionowymiKreskami)) {
+            adresat = pobierzDaneAdresata (daneAdresataOddzielonePionowymiKreskami);
+
+            if ((adresat.id == adresaci[polozenieAdresataPoNumerzeId].id) && (rodzajOperacji == "edytujDaneAdresata")) {
+                if (numerRecorduWPliku > PIERWSZY_RECORD_W_PLIKU) plikTymczasowy << endl;
+                plikTymczasowy << adresaci[polozenieAdresataPoNumerzeId].id << "|";
+                plikTymczasowy << adresaci[polozenieAdresataPoNumerzeId].idUzytkownika << "|";
+                plikTymczasowy << adresaci[polozenieAdresataPoNumerzeId].imie << "|";
+                plikTymczasowy << adresaci[polozenieAdresataPoNumerzeId].nazwisko << "|";
+                plikTymczasowy << adresaci[polozenieAdresataPoNumerzeId].numerTelefonu << "|";
+                plikTymczasowy << adresaci[polozenieAdresataPoNumerzeId].email << "|";
+                plikTymczasowy << adresaci[polozenieAdresataPoNumerzeId].adres << "|";
+            }
+            else if ((adresat.id == adresaci[polozenieAdresataPoNumerzeId].id) && (rodzajOperacji == "usunAdresata")) {
+                if (numerRecorduWPliku > PIERWSZY_RECORD_W_PLIKU) numerRecorduWPliku = 0;
+            }
+            else {
+                if (numerRecorduWPliku > PIERWSZY_RECORD_W_PLIKU) plikTymczasowy << endl;
+                plikTymczasowy << adresat.id << "|";
+                plikTymczasowy << adresat.idUzytkownika << "|";
+                plikTymczasowy << adresat.imie << "|";
+                plikTymczasowy << adresat.nazwisko << "|";
+                plikTymczasowy << adresat.numerTelefonu << "|";
+                plikTymczasowy << adresat.email << "|";
+                plikTymczasowy << adresat.adres << "|";
+            }
+            numerRecorduWPliku++;
         }
         plik.close();
+        remove("Adresaci.txt");
+        plikTymczasowy.close();
+        rename("Adresaci_tymczasowy.txt", "Adresaci.txt");
     }
 }
 
@@ -567,10 +593,10 @@ void usunAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
                     if (adresaci[i].id == idAdresataDoUsuniecia) {
                         int polozenieAdresataPoNumerzeId = podajPolozenieAdresataPoId (adresaci, idAdresataDoUsuniecia);
 
-                        adresaci.erase(adresaci.begin() + i);
-                        i = adresaci.size();
+                        // adresaci.erase(adresaci.begin() + i); <- Prawdopodobnie do usunieca
                         nadpiszPlikAdresaci (adresaci, polozenieAdresataPoNumerzeId, "usunAdresata");
                         cout << "Adresat o wskazanym ID zostal usuniety z Ksiazki Adresowej" << endl;
+                        i = adresaci.size();
                         system("PAUSE");
                     }
                 }
