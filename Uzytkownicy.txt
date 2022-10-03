@@ -1,4 +1,0 @@
-1|Kamil|123|
-2|Kasia|123|
-3|Kamilos|1234|
-4|Michal|123|

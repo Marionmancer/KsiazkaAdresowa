@@ -600,22 +600,19 @@ void usunAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
             cout << "Wcisnij 'n' aby wrocic do poprzedniego menu lub dowolny klawisz by podac inne ID" << endl;
             char wybor = getch();
             if (wybor == 'n') wynikWyszukiwaniaAdresata = true;
-            else cout << "Podaj ID adresata do usuniecia" << endl;
+            else {
+                system("cls");
+                cout << "Podaj ID adresata do usuniecia" << endl;
+            }
         }
         else if (wynikWyszukiwaniaAdresata) {
             if (czyUzytkownikPotwierdzilUsuniecieAdresata()) {
-                //for (unsigned int i = 0; i < adresaci.size(); i++) {
-                    //if (adresaci[i].id == idAdresataDoUsuniecia) {
                         int polozenieAdresataPoNumerzeId = podajPolozenieAdresataPoId (adresaci, idAdresataDoUsuniecia);
 
-                        // adresaci.erase(adresaci.begin() + i); <- Prawdopodobnie do usunieca
                         nadpiszPlikAdresaci (adresaci, polozenieAdresataPoNumerzeId, "usunAdresata");
                         adresaci.erase(adresaci.begin() + polozenieAdresataPoNumerzeId);
                         cout << "Adresat o wskazanym ID zostal usuniety z Ksiazki Adresowej" << endl;
-                        //i = adresaci.size();
                         system("PAUSE");
-                    //}
-                //}
             }
             else {
                 cout << "Operacja usuniecia adresata anulowana przez uzytkownika" << endl;
