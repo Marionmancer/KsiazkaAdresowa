@@ -1,2 +1,3 @@
-2|2|Kamil|Szama|7784|151@dsd|132|
-3|1|Kamil|Inglot|13213|dsds@|123231|
+2|1|Kolejny|Adresat|1323123|kama@|132|
+3|1|Michal|Boniek|1323|B@|sdds|
+4|2|Nowy|Adresat|83737|adresat@|sasa|

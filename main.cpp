@@ -288,12 +288,12 @@ bool czyEmailPoprawny(string email) {
     }
 }
 
-void zapisAdresatowDoPliku (vector <Adresat> &adresaci) {
+void zapisAdresatowDoPliku (vector <Adresat> &adresaci, int idDodawanegoAdresata) {
     fstream plik;
-    const int PIERWSZY_RECORD_W_PLIKU = 0;
+    const int PIERWSZY_RECORD_W_PLIKU = 1;
     plik.open("Adresaci.txt", ios::out | ios::app);
 
-    if ((adresaci.size() - 1) > PIERWSZY_RECORD_W_PLIKU) plik << endl;
+    if (idDodawanegoAdresata > PIERWSZY_RECORD_W_PLIKU) plik << endl;
 
     plik << adresaci[adresaci.size() - 1].id << "|";
     plik << adresaci[adresaci.size() - 1].idUzytkownika << "|";
@@ -306,12 +306,33 @@ void zapisAdresatowDoPliku (vector <Adresat> &adresaci) {
     plik.close();
 }
 
+int pobierzIdOstatniegoAdresataWBazieDanych () {
+    int idOstatniegoAdresataWBazieDanych = 0;
+    string idOstatniegoAdresataWBazieDanychJakoString = "";
+    string daneAdresataOddzielonePionowymiKreskami = "";
+    fstream plik;
+
+    plik.open("Adresaci.txt", ios::in);
+
+    if (plik.good()) {
+        while (getline(plik, daneAdresataOddzielonePionowymiKreskami)) {
+            int polozenieZnakuPodzialu = daneAdresataOddzielonePionowymiKreskami.find('|');
+
+            idOstatniegoAdresataWBazieDanychJakoString = daneAdresataOddzielonePionowymiKreskami.substr(0, polozenieZnakuPodzialu);
+            idOstatniegoAdresataWBazieDanych = atoi(idOstatniegoAdresataWBazieDanychJakoString.c_str());
+        }
+        plik.close();
+    }
+    return idOstatniegoAdresataWBazieDanych;
+}
+
 void dodajAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
 
     Adresat dodawanyAdresat;
 
     cout << "Podaj imie: " << endl;
 
+    dodawanyAdresat.id = pobierzIdOstatniegoAdresataWBazieDanych() + 1;
     dodawanyAdresat.idUzytkownika = idZalogowanegoUzytkownika;
 
     do {
@@ -343,14 +364,8 @@ void dodajAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
     cout << "Podaj adres: " << endl;
     dodawanyAdresat.adres = wczytajLinieTekstu();
 
-    if (adresaci.size() == 0){
-        dodawanyAdresat.id = 1;
-    }
-    else
-        dodawanyAdresat.id = adresaci [adresaci.size() - 1].id + 1;
-
     adresaci.push_back(dodawanyAdresat);
-    zapisAdresatowDoPliku (adresaci);
+    zapisAdresatowDoPliku (adresaci, dodawanyAdresat.id);
     cout << "Dodano osobe do bazy adresatow" << endl;
     Sleep(1000);
 }
@@ -449,7 +464,7 @@ int podbierzIdAdresataDoEdycji (vector <Adresat> adresaci, int idZalogowanegoUzy
     return idEdytowanegoAdresata;
 }
 
-void nadpiszPlikAdresaci (vector <Adresat> &adresaci, int polozenieAdresataPoNumerzeId, string rodzajOperacji) {
+void nadpiszPlikAdresaci (vector <Adresat> adresaci, int polozenieAdresataPoNumerzeId, string rodzajOperacji) {
     fstream plik, plikTymczasowy;
     const int PIERWSZY_RECORD_W_PLIKU = 1;
     Adresat adresat;
@@ -463,13 +478,6 @@ void nadpiszPlikAdresaci (vector <Adresat> &adresaci, int polozenieAdresataPoNum
 
         while (getline(plik,daneAdresataOddzielonePionowymiKreskami)) {
             adresat = pobierzDaneAdresata (daneAdresataOddzielonePionowymiKreskami);
-            cout << adresat.id << "|";
-            cout << adresat.idUzytkownika << "|";
-            cout << adresat.imie << "|";
-            cout << adresat.nazwisko << "|";
-            cout << adresat.numerTelefonu << "|";
-            cout << adresat.email << "|";
-            cout << adresat.adres << "|" << endl;
 
             if ((adresat.id == adresaci[polozenieAdresataPoNumerzeId].id) && (rodzajOperacji == "edytujDaneAdresata")) {
                 if (numerRecorduWPliku > PIERWSZY_RECORD_W_PLIKU) plikTymczasowy << endl;
@@ -482,7 +490,7 @@ void nadpiszPlikAdresaci (vector <Adresat> &adresaci, int polozenieAdresataPoNum
                 plikTymczasowy << adresaci[polozenieAdresataPoNumerzeId].adres << "|";
             }
             else if ((adresat.id == adresaci[polozenieAdresataPoNumerzeId].id) && (rodzajOperacji == "usunAdresata")) {
-                if (numerRecorduWPliku > PIERWSZY_RECORD_W_PLIKU) numerRecorduWPliku = 0;
+                if (numerRecorduWPliku == PIERWSZY_RECORD_W_PLIKU) numerRecorduWPliku = 0;
             }
             else {
                 if (numerRecorduWPliku > PIERWSZY_RECORD_W_PLIKU) plikTymczasowy << endl;
@@ -498,9 +506,7 @@ void nadpiszPlikAdresaci (vector <Adresat> &adresaci, int polozenieAdresataPoNum
         }
         plik.close();
         remove("Adresaci.txt");
-        system("PAUSE");
         plikTymczasowy.close();
-        system("PAUSE");
         rename("Adresaci_tymczasowy.txt", "Adresaci.txt");
     }
 }
@@ -604,6 +610,7 @@ void usunAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
 
                         // adresaci.erase(adresaci.begin() + i); <- Prawdopodobnie do usunieca
                         nadpiszPlikAdresaci (adresaci, polozenieAdresataPoNumerzeId, "usunAdresata");
+                        adresaci.erase(adresaci.begin() + polozenieAdresataPoNumerzeId);
                         cout << "Adresat o wskazanym ID zostal usuniety z Ksiazki Adresowej" << endl;
                         //i = adresaci.size();
                         system("PAUSE");
@@ -696,6 +703,7 @@ int main() {
             break;
 
             case'9':
+                adresaci.clear();
                 idZalogowanegoUzytkownika = 0;
                 break;
 
