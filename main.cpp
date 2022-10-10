@@ -377,7 +377,6 @@ void wyswietlKomunikatZamknieciaWynikowWyszukiwania () {
 
 void wyswietlDaneAdresata (vector <Adresat> &adresaci, int idAdresata) {
     cout << adresaci[idAdresata].id << "|";
-    cout << adresaci[idAdresata].idUzytkownika << "|";
     cout << adresaci[idAdresata].imie << "|";
     cout << adresaci[idAdresata].nazwisko << "|";
     cout << adresaci[idAdresata].numerTelefonu << "|";
@@ -385,7 +384,11 @@ void wyswietlDaneAdresata (vector <Adresat> &adresaci, int idAdresata) {
     cout << adresaci[idAdresata].adres << "|" << endl;
 }
 
-void wyszukajAdresataPoImieniu (vector <Adresat> &adresaci, string szukaneImie, int idZalogowanegoUzytkownika) {
+void wyszukajAdresataPoImieniu (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
+
+    cout << "Podaj imie do wyszukania" <<endl;
+    string szukaneImie = wczytajLinieTekstu();
+
     int iloscWynikow = 0;
 
     for (unsigned int i = 0; i < adresaci.size(); i++) {
@@ -402,7 +405,11 @@ void wyszukajAdresataPoImieniu (vector <Adresat> &adresaci, string szukaneImie, 
     else wyswietlKomunikatZamknieciaWynikowWyszukiwania();
 }
 
-void wyszukajAdresataPoNazwisku (vector <Adresat> &adresaci, string szukaneNazwisko, int idZalogowanegoUzytkownika) {
+void wyszukajAdresataPoNazwisku (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
+
+    cout << "Podaj nazwisko do wyszukania" <<endl;
+    string szukaneNazwisko = wczytajLinieTekstu();
+
     int iloscWynikow = 0;
 
     for (unsigned int i = 0; i < adresaci.size(); i++) {
@@ -662,18 +669,12 @@ int main() {
                     dodajAdresata (adresaci, idZalogowanegoUzytkownika);
                 break;
 
-            case'2': {
-                    cout << "Podaj imie do wyszukania" <<endl;
-                string szukaneImie = wczytajLinieTekstu();
-                wyszukajAdresataPoImieniu (adresaci, szukaneImie, idZalogowanegoUzytkownika);
+            case'2':
+                wyszukajAdresataPoImieniu (adresaci, idZalogowanegoUzytkownika);
                 break;
-            }
-            case'3':{
-                    cout << "Podaj nazwisko do wyszukania" <<endl;
-                string szukaneNazwisko = wczytajLinieTekstu();
-                wyszukajAdresataPoNazwisku (adresaci, szukaneNazwisko, idZalogowanegoUzytkownika);
+            case'3':
+                wyszukajAdresataPoNazwisku (adresaci, idZalogowanegoUzytkownika);
                 break;
-            }
             case'4':{
                     cout << "Lista danych Twoich adresatow wyglada nastepujaco: " << endl;
                 wyswietlDaneWszystkichAdresatow(adresaci, idZalogowanegoUzytkownika);
