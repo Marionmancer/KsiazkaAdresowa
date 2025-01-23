@@ -7,6 +7,21 @@
 
 using namespace std;
 
+struct Adresat {
+    int id = 0;
+    string imie ="";
+    string nazwisko ="";
+    int numerTelefonu = 0;
+    string eMail ="";
+    string adres ="";
+};
+
+struct Uzytkownik {
+    int idUzytkownika;
+    string loginUzytkownika;
+    string haslo;
+};
+
 int wczytajLiczbeCalkowita() {
     string wejscie = "";
     int liczba = 0;
@@ -70,15 +85,6 @@ char wczytajZnak() {
     }
     return znak;
 }
-
-struct Adresat {
-    int id = 0;
-    string imie ="";
-    string nazwisko ="";
-    int numerTelefonu = 0;
-    string eMail ="";
-    string adres ="";
-};
 
 void wyswietlMenuGlowne() {
     system("cls");
@@ -334,6 +340,7 @@ int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
 int main() {
 
     vector <Adresat> adresaci;
+    vector <Uzytkownik> uzytkownicy;
     int idOstatniegoAdresata = 0;
     char wybor = (0);
 
