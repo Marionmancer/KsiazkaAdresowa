@@ -38,7 +38,7 @@ int wczytajLiczbeCalkowita() {
     return liczba;
 }
 
-string wczytajAdresEmail (){
+string wczytajAdresEmail () {
     string wejscie = "";
     bool czyPosiadaMalpe = false;
     bool czyPosiadaKropke = false;
@@ -48,7 +48,7 @@ string wczytajAdresEmail (){
         cout << "Podaj adres e-mail" << endl;
         getline(cin, wejscie);
 
-        for (size_t i = 0; i < wejscie.length(); i++){
+        for (size_t i = 0; i < wejscie.length(); i++) {
             if (wejscie[i] == '@') czyPosiadaMalpe = true;
             if (wejscie[i] == '.') czyPosiadaKropke = true;
         }
@@ -86,7 +86,15 @@ char wczytajZnak() {
     return znak;
 }
 
-void wyswietlMenuGlowne() {
+void wyswietlMenuLogowania() {
+    system("cls");
+    cout << "MENU LOGOWANIA" << endl;
+    cout << "1. Rejestracja" << endl;
+    cout << "2. Logowanie" << endl;
+    cout << "9. Zakoncz program" << endl << endl;
+}
+
+void wyswietlMenuUzytkownika() {
     system("cls");
     cout << "KSIAZKA ADRESOWA" << endl;
     cout << "1. Dodaj adresata" << endl;
@@ -199,50 +207,50 @@ void wypiszWszystkieOsoby (vector <Adresat> adresaci) {
     system("pause");
 }
 
-void edytujDaneAdresata (vector <Adresat> &adresaci){
+void edytujDaneAdresata (vector <Adresat> &adresaci) {
 
     int idAdresataDoEdycji;
     bool czyAdresatJestWKsiazce = false;
     cout << "Podaj ID adresata do edycji!" << endl;
     idAdresataDoEdycji = wczytajLiczbeCalkowita();
 
-        for (vector <Adresat> :: iterator itr = adresaci.begin();
-            itr != adresaci.end(); itr++){
-            if (itr->id == idAdresataDoEdycji){
-                wyswietlMenuEdycjiAdresatow();
-                czyAdresatJestWKsiazce = true;
-                char wybor;
-                wybor = wczytajZnak();
-                switch (wybor) {
-                case '1':
-                    itr->imie = wczytajLinie();
-                    break;
-                case '2':
-                    itr->nazwisko = wczytajLinie();
-                    break;
-                case '3':
-                    itr->numerTelefonu = wczytajLiczbeCalkowita();
-                    break;
-                case '4':
-                    itr->eMail = wczytajAdresEmail();
-                    break;
-                case '5':
-                    itr->adres = wczytajLinie();
-                    break;
-                case '6':
-                    exit(0);
-                    break;
-                }
+    for (vector <Adresat> :: iterator itr = adresaci.begin();
+            itr != adresaci.end(); itr++) {
+        if (itr->id == idAdresataDoEdycji) {
+            wyswietlMenuEdycjiAdresatow();
+            czyAdresatJestWKsiazce = true;
+            char wybor;
+            wybor = wczytajZnak();
+            switch (wybor) {
+            case '1':
+                itr->imie = wczytajLinie();
+                break;
+            case '2':
+                itr->nazwisko = wczytajLinie();
+                break;
+            case '3':
+                itr->numerTelefonu = wczytajLiczbeCalkowita();
+                break;
+            case '4':
+                itr->eMail = wczytajAdresEmail();
+                break;
+            case '5':
+                itr->adres = wczytajLinie();
+                break;
+            case '6':
+                exit(0);
+                break;
             }
         }
-        if (czyAdresatJestWKsiazce == false) {
-            cout << "Adresat o podanym numerze ID nie wystepuje w Ksiazce Adresowej" << endl;
-            system("pause");
-        }
+    }
+    if (czyAdresatJestWKsiazce == false) {
+        cout << "Adresat o podanym numerze ID nie wystepuje w Ksiazce Adresowej" << endl;
+        system("pause");
+    }
     system("cls");
 }
 
-int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata){
+int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata) {
 
     int idAdresataDoUsuniecia;
     bool czyAdresatOPodanymIdJestWKsiazce = false;
@@ -251,21 +259,21 @@ int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata){
     idAdresataDoUsuniecia = wczytajLiczbeCalkowita();
 
     cout << "Czy jestes pewien, ze chcesz usunac tego adresata? - wcisnij 't'" << endl;
-    if (getch() == 't'){
+    if (getch() == 't') {
         for (vector <Adresat> :: iterator itr = adresaci.begin();
-            itr != adresaci.end(); itr++){
+                itr != adresaci.end(); itr++) {
 
-            if (itr->id == idAdresataDoUsuniecia){
+            if (itr->id == idAdresataDoUsuniecia) {
                 czyAdresatOPodanymIdJestWKsiazce = true;
                 adresaci.erase(itr);
                 idOstatniegoAdresata = adresaci[adresaci.size()-1].id;
-                if(itr == adresaci.end()){
+                if(itr == adresaci.end()) {
                     break;
                 }
             }
         }
     }
-    if (czyAdresatOPodanymIdJestWKsiazce == false){
+    if (czyAdresatOPodanymIdJestWKsiazce == false) {
         system("cls");
         cout << "Adresata o podanym numerze ID nie ma w ksiazce!" << endl;
         system("pause");
@@ -368,26 +376,21 @@ int odczytDanychLogowaniaUzytkownikow (vector <Uzytkownik> &uzytkownicy) {
         }
         nrLinii++;
     }
-
     plik.close();
 
     return idOstatniegoUzytkownika;
 }
 
-int main() {
-
+void uruchomieniePaneluModyfikacjiKsiazkiAdresowej(vector <Uzytkownik> uzytkownicy, int idZalogowanegoUzytkownika) {
     vector <Adresat> adresaci;
-    vector <Uzytkownik> uzytkownicy;
-    int idOstatniegoUzytkownika = 0;
-    int idBiezacegoUzytkownika = 0;
     int idOstatniegoAdresata = 0;
+
     char wybor = (0);
 
-    idOstatniegoUzytkownika = odczytDanychLogowaniaUzytkownikow (uzytkownicy);
     idOstatniegoAdresata = odczytDanychKsiazkiAdresowej(adresaci);
 
-    while(true) {
-        wyswietlMenuGlowne();
+    while(idZalogowanegoUzytkownika != 0) {
+        wyswietlMenuUzytkownika();
         wybor = wczytajZnak();
         system("cls");
 
@@ -413,9 +416,39 @@ int main() {
             break;
         case '9':
             zapiszKsiazkeAdresowa(adresaci);
+            idZalogowanegoUzytkownika = 0;
+            break;
+        }
+    }
+}
+
+int main() {
+
+    vector <Uzytkownik> uzytkownicy;
+    int idOstatniegoUzytkownika = 0;
+    idOstatniegoUzytkownika = odczytDanychLogowaniaUzytkownikow (uzytkownicy);
+
+    int idZalogowanegoUzytkownika = 0;
+    char wybor = (0);
+
+    while(true) {
+        wyswietlMenuLogowania();
+        wybor = wczytajZnak();
+        system("cls");
+
+        switch(wybor) {
+        case '1':
+            //Logowanie
+            break;
+        case '2':
+            //Rejestracja
+            break;
+        case '9':
+            //Zakonczenie programu
             exit(0);
             break;
         }
     }
+
     return 0;
 }
