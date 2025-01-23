@@ -34,5 +34,9 @@
 # Project diagramin FreeMind
 *.mm
 
+# Program realted files
+*.depend
+*.cscope_file_list
+*.layout
 bin/
 obj/
