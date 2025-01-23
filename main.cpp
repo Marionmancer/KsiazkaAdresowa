@@ -23,6 +23,29 @@ int wczytajLiczbeCalkowita() {
     return liczba;
 }
 
+string wczytajAdresEmail (){
+    string wejscie = "";
+    bool czyPosiadaMalpe = false;
+    bool czyPosiadaKropke = false;
+
+    while (true) {
+        cin.sync();
+        cout << "Podaj adres e-mail" << endl;
+        getline(cin, wejscie);
+
+        for (size_t i = 0; i < wejscie.length(); i++){
+            if (wejscie[i] == '@') czyPosiadaMalpe = true;
+            if (wejscie[i] == '.') czyPosiadaKropke = true;
+        }
+
+        if (czyPosiadaMalpe && czyPosiadaKropke) break;
+        cout << "To nie jest adres e-mail. Wpisz ponownie." << endl;
+        czyPosiadaMalpe = false;
+        czyPosiadaKropke = false;
+    }
+    return wejscie;
+}
+
 string wczytajLinie() {
     string wejscie = "";
     cin.sync();
@@ -50,11 +73,11 @@ char wczytajZnak() {
 
 struct Adresat {
     int id = 0;
-    string imie="";
-    string nazwisko="";
-    string numerTelefonu="";
-    string eMail="";
-    string adres="";
+    string imie ="";
+    string nazwisko ="";
+    int numerTelefonu = 0;
+    string eMail ="";
+    string adres ="";
 };
 
 void wyswietlMenuGlowne() {
@@ -91,9 +114,9 @@ int dodajNowaOsobeDoKsiazki (vector <Adresat> &adresaci, int idOstatniegoAdresat
     cout << "Podaj nazwisko: ";
     adresat.nazwisko = wczytajLinie();
     cout << "Podaj numer telefonu: ";
-    adresat.numerTelefonu = wczytajLinie();
+    adresat.numerTelefonu = wczytajLiczbeCalkowita();
     cout << "Podaj e-mail: ";
-    adresat.eMail = wczytajLinie();
+    adresat.eMail = wczytajAdresEmail();
     cout << "Podaj adres: ";
     adresat.adres = wczytajLinie();
 
@@ -192,10 +215,10 @@ void edytujDaneAdresata (vector <Adresat> &adresaci){
                     itr->nazwisko = wczytajLinie();
                     break;
                 case '3':
-                    itr->numerTelefonu = wczytajLinie();
+                    itr->numerTelefonu = wczytajLiczbeCalkowita();
                     break;
                 case '4':
-                    itr->eMail = wczytajLinie();
+                    itr->eMail = wczytajAdresEmail();
                     break;
                 case '5':
                     itr->adres = wczytajLinie();
@@ -247,7 +270,7 @@ int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata){
 
 void zapiszKsiazkeAdresowa(vector <Adresat> adresaci) {
     fstream plik;
-    plik.open("ksiazka_adresowa_nowy_format.txt", ios::out);
+    plik.open("Adresaci.txt", ios::out);
 
     for (size_t i = 0; i < adresaci.size(); i++) {
         if(i > 0) plik << endl;
@@ -268,7 +291,7 @@ int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
     int nrLinii = 1;
     Adresat adresat;
 
-    plik.open("ksiazka_adresowa_nowy_format.txt", ios::in);
+    plik.open("Adresaci.txt", ios::in);
 
     if (plik.good() == false) {
         cout << "Plik nie istnieje!";
@@ -289,7 +312,7 @@ int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
             adresat.nazwisko = linia;
             break;
         case 4:
-            adresat.numerTelefonu = linia;
+            adresat.numerTelefonu = stoi(linia);
             break;
         case 5:
             adresat.eMail = linia;
