@@ -337,13 +337,53 @@ int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
     return idOstatniegoAdresata;
 }
 
+int odczytDanychLogowaniaUzytkownikow (vector <Uzytkownik> &uzytkownicy) {
+    fstream plik;
+    int idOstatniegoUzytkownika = 0;
+    int nrLinii = 1;
+    Uzytkownik uzytkownik;
+
+    plik.open("Uzytkownicy.txt", ios::in);
+
+    if (plik.good() == false) {
+        cout << "Plik nie istnieje!";
+        return idOstatniegoUzytkownika;
+    }
+
+    string linia;
+    while (getline(plik,linia,'|')) {
+        switch (nrLinii) {
+        case 1:
+            uzytkownik.idUzytkownika = atoi(linia.c_str());
+            idOstatniegoUzytkownika = uzytkownik.idUzytkownika;
+            break;
+        case 2:
+            uzytkownik.loginUzytkownika = linia;
+            break;
+        case 3:
+            uzytkownik.haslo = linia;
+            uzytkownicy.push_back(uzytkownik);
+            nrLinii = 0;
+            break;
+        }
+        nrLinii++;
+    }
+
+    plik.close();
+
+    return idOstatniegoUzytkownika;
+}
+
 int main() {
 
     vector <Adresat> adresaci;
     vector <Uzytkownik> uzytkownicy;
+    int idOstatniegoUzytkownika = 0;
+    int idBiezacegoUzytkownika = 0;
     int idOstatniegoAdresata = 0;
     char wybor = (0);
 
+    idOstatniegoUzytkownika = odczytDanychLogowaniaUzytkownikow (uzytkownicy);
     idOstatniegoAdresata = odczytDanychKsiazkiAdresowej(adresaci);
 
     while(true) {
