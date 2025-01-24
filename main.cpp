@@ -167,7 +167,7 @@ void wyszukajPoImieniu (vector <Adresat> adresaci) {
     system("pause");
 }
 
-void wyszukajPoNazwisku (vector <Adresat> adresaci) {
+void wyszukajPoNazwisku (vector <Adresat> adresaci, int idZalogowanegoUzytkownika) {
     string wyszukiwaneNazwisko="";
     bool czyZnalezionoOsobe = false;
     cout << "Podaj nazwisko do wyszukania w ksiazce adresowej: ";
@@ -175,10 +175,10 @@ void wyszukajPoNazwisku (vector <Adresat> adresaci) {
 
     system("cls");
     for (size_t i=0; i < adresaci.size(); i++) {
-        if(adresaci[i].nazwisko == wyszukiwaneNazwisko) {
+        if(adresaci[i].nazwisko == wyszukiwaneNazwisko && adresaci[i].idUzytkownika == idZalogowanegoUzytkownika) {
             czyZnalezionoOsobe = true;
             cout <<"ID adresata: \t\t\t" << adresaci[i].idAdresata << endl;
-            cout <<"ID uzytkownika: \t\t" << adresaci[i].idAdresata << endl;
+            cout <<"ID uzytkownika: \t\t" << adresaci[i].idUzytkownika << endl;
             cout <<"Imie: \t\t\t\t" << adresaci[i].imie << endl;
             cout <<"Nazwisko: \t\t\t" << adresaci[i].nazwisko << endl;
             cout <<"Numer telefonu: \t\t" << adresaci[i].numerTelefonu << endl;
@@ -439,7 +439,7 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
             wyszukajPoImieniu(adresaci);
             break;
         case '3':
-            wyszukajPoNazwisku(adresaci);
+            wyszukajPoNazwisku(adresaci, idZalogowanegoUzytkownika);
             break;
         case '4':
             wypiszWszystkieOsoby(adresaci);
