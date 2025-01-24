@@ -212,7 +212,7 @@ void wypiszWszystkieOsoby (vector <Adresat> adresaci) {
     system("pause");
 }
 
-void edytujDaneAdresata (vector <Adresat> &adresaci) {
+void edytujDaneAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
 
     int idAdresataDoEdycji;
     bool czyAdresatJestWKsiazce = false;
@@ -221,7 +221,7 @@ void edytujDaneAdresata (vector <Adresat> &adresaci) {
 
     for (vector <Adresat> :: iterator itr = adresaci.begin();
             itr != adresaci.end(); itr++) {
-        if (itr->idAdresata == idAdresataDoEdycji) {
+        if (itr->idAdresata == idAdresataDoEdycji && itr->idUzytkownika == idZalogowanegoUzytkownika) {
             wyswietlMenuEdycjiAdresatow();
             czyAdresatJestWKsiazce = true;
             char wybor;
@@ -450,7 +450,7 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
             idOstatniegoAdresata = usunAdresata(adresaci, idOstatniegoAdresata, idZalogowanegoUzytkownika);
             break;
         case '6':
-            edytujDaneAdresata(adresaci);
+            edytujDaneAdresata(adresaci, idZalogowanegoUzytkownika);
             zapiszKsiazkeAdresowa(adresaci);
             break;
         case '7':
