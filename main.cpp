@@ -300,6 +300,20 @@ void zapiszKsiazkeAdresowa(vector <Adresat> adresaci) {
     plik.close();
 }
 
+void zapiszDaneUzytkownikow(vector <Uzytkownik> uzytkownicy) {
+    fstream plik;
+    plik.open("Uzytkownicy.txt", ios::out);
+
+    for (size_t i = 0; i < uzytkownicy.size(); i++) {
+        if(i > 0) plik << endl;
+        plik << uzytkownicy[i].idUzytkownika << "|";
+        plik << uzytkownicy[i].loginUzytkownika << "|";
+        plik << uzytkownicy[i].haslo << "|";
+    }
+
+    plik.close();
+}
+
 int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
     fstream plik;
     int idOstatniegoAdresata = 0;
@@ -502,6 +516,7 @@ int main() {
         case '2':
             //Rejestracja
             idOstatniegoUzytkownika = rejestracjaNowegoUzytkownika (uzytkownicy, idOstatniegoUzytkownika);
+            zapiszDaneUzytkownikow(uzytkownicy);
             break;
         case '9':
             //Zakonczenie programu
