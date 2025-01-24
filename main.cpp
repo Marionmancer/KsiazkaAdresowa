@@ -255,7 +255,7 @@ void edytujDaneAdresata (vector <Adresat> &adresaci) {
     system("cls");
 }
 
-int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata) {
+int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata, int idZalogowanegoUzytkownika) {
 
     int idAdresataDoUsuniecia;
     bool czyAdresatOPodanymIdJestWKsiazce = false;
@@ -268,10 +268,12 @@ int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata) {
         for (vector <Adresat> :: iterator itr = adresaci.begin();
                 itr != adresaci.end(); itr++) {
 
-            if (itr->idAdresata == idAdresataDoUsuniecia) {
+            if (itr->idAdresata == idAdresataDoUsuniecia && itr->idUzytkownika == idZalogowanegoUzytkownika) {
                 czyAdresatOPodanymIdJestWKsiazce = true;
                 adresaci.erase(itr);
                 idOstatniegoAdresata = adresaci[adresaci.size()-1].idAdresata;
+                cout << "Adresata o podanym numerze ID zostal usuniety!" << endl;
+                system("pause");
                 if(itr == adresaci.end()) {
                     break;
                 }
@@ -445,7 +447,7 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
             wypiszWszystkieOsoby(adresaci);
             break;
         case '5':
-            idOstatniegoAdresata = usunAdresata(adresaci, idOstatniegoAdresata);
+            idOstatniegoAdresata = usunAdresata(adresaci, idOstatniegoAdresata, idZalogowanegoUzytkownika);
             break;
         case '6':
             edytujDaneAdresata(adresaci);
