@@ -152,7 +152,7 @@ void wyszukajPoImieniu (vector <Adresat> adresaci, int idZalogowanegoUzytkownika
         if(adresaci[i].imie == wyszukiwaneImie && adresaci[i].idUzytkownika == idZalogowanegoUzytkownika) {
             czyZnalezionoOsobe = true;
             cout <<"ID adresata: \t\t\t" << adresaci[i].idAdresata << endl;
-            cout <<"ID uzytkownika: \t\t" << adresaci[i].idAdresata << endl;
+            cout <<"ID uzytkownika: \t\t" << adresaci[i].idUzytkownika << endl;
             cout <<"Imie: \t\t\t\t" << adresaci[i].imie << endl;
             cout <<"Nazwisko: \t\t\t" << adresaci[i].nazwisko << endl;
             cout <<"Numer telefonu: \t\t" << adresaci[i].numerTelefonu << endl;
