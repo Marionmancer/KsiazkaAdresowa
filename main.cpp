@@ -89,8 +89,8 @@ char wczytajZnak() {
 void wyswietlMenuLogowania() {
     system("cls");
     cout << "MENU LOGOWANIA" << endl;
-    cout << "1. Rejestracja" << endl;
-    cout << "2. Logowanie" << endl;
+    cout << "1. Logowanie" << endl;
+    cout << "2. Rejestracja" << endl;
     cout << "9. Zakoncz program" << endl << endl;
 }
 
@@ -103,7 +103,8 @@ void wyswietlMenuUzytkownika() {
     cout << "4. Wyswietl wszystkich adresatow" << endl;
     cout << "5. Usun adresata" << endl;
     cout << "6. Edytuj adresata" << endl;
-    cout << "9. Zakoncz program" << endl << endl;
+    cout << "7. Zmien haslo" << endl;
+    cout << "9. Wyloguj sie" << endl << endl;
 }
 
 void wyswietlMenuEdycjiAdresatow() {
@@ -381,7 +382,7 @@ int odczytDanychLogowaniaUzytkownikow (vector <Uzytkownik> &uzytkownicy) {
     return idOstatniegoUzytkownika;
 }
 
-void uruchomieniePaneluModyfikacjiKsiazkiAdresowej(vector <Uzytkownik> uzytkownicy, int idZalogowanegoUzytkownika) {
+void panelOpcjiUzytkownika(vector <Uzytkownik> uzytkownicy, int idZalogowanegoUzytkownika) {
     vector <Adresat> adresaci;
     int idOstatniegoAdresata = 0;
 
@@ -422,6 +423,32 @@ void uruchomieniePaneluModyfikacjiKsiazkiAdresowej(vector <Uzytkownik> uzytkowni
     }
 }
 
+int logowanie(vector <Uzytkownik> uzytkownicy) {
+    string login, haslo;
+    cout << "Podaj login: ";
+    cin >> login;
+
+    for (size_t i = 0; i < uzytkownicy.size(); i++) {
+        if (uzytkownicy[i].loginUzytkownika == login) {
+            for (int proby = 0; proby < 3; proby++) {
+                cout << "Podaj haslo. Pozostalo prob " << 3-proby << ": ";
+                cin >> haslo;
+                if (uzytkownicy[i].haslo == haslo) {
+                    cout << "Zalogowales sie." << endl;
+                    Sleep(1000);
+                    return uzytkownicy[i].idUzytkownika;
+                }
+            }
+            cout << "Podales 3 razy bledne haslo. Poczekaj 2 sekundy przed kolejna proba" << endl;
+            Sleep(2000);
+            return 0;
+        }
+    }
+    cout << "Nie ma uzytkownika z takim loginem" << endl;
+    Sleep(1500);
+    return 0;
+}
+
 int main() {
 
     vector <Uzytkownik> uzytkownicy;
@@ -439,6 +466,8 @@ int main() {
         switch(wybor) {
         case '1':
             //Logowanie
+            idZalogowanegoUzytkownika = logowanie(uzytkownicy);
+            panelOpcjiUzytkownika(uzytkownicy, idZalogowanegoUzytkownika);
             break;
         case '2':
             //Rejestracja
