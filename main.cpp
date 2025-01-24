@@ -193,18 +193,20 @@ void wyszukajPoNazwisku (vector <Adresat> adresaci) {
     system("pause");
 }
 
-void wypiszWszystkieOsoby (vector <Adresat> adresaci) {
+void wypiszWszystkieOsoby (vector <Adresat> adresaci, int idZalogowanegoUzytkownika) {
 
     system("cls");
     if (adresaci.size() > 0) {
         for (size_t i=0; i < adresaci.size(); i++) {
-            cout <<"ID adresata: \t\t\t" << adresaci[i].idAdresata << endl;
-            cout <<"ID uzytkownika: \t\t" << adresaci[i].idAdresata << endl;
-            cout <<"Imie: \t\t\t\t" << adresaci[i].imie << endl;
-            cout <<"Nazwisko: \t\t\t" << adresaci[i].nazwisko << endl;
-            cout <<"Numer telefonu: \t\t" << adresaci[i].numerTelefonu << endl;
-            cout <<"E-mail: \t\t\t" << adresaci[i].eMail << endl;
-            cout <<"Adres: \t\t\t\t" << adresaci[i].adres << endl<< endl;
+            if (adresaci[i].idUzytkownika == idZalogowanegoUzytkownika){
+                cout <<"ID adresata: \t\t\t" << adresaci[i].idAdresata << endl;
+                cout <<"ID uzytkownika: \t\t" << adresaci[i].idUzytkownika << endl;
+                cout <<"Imie: \t\t\t\t" << adresaci[i].imie << endl;
+                cout <<"Nazwisko: \t\t\t" << adresaci[i].nazwisko << endl;
+                cout <<"Numer telefonu: \t\t" << adresaci[i].numerTelefonu << endl;
+                cout <<"E-mail: \t\t\t" << adresaci[i].eMail << endl;
+                cout <<"Adres: \t\t\t\t" << adresaci[i].adres << endl<< endl;
+            }
         }
     } else {
         cout << "Niestety, ksiazka adresowa jest pusta." << endl;
@@ -442,7 +444,7 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
             wyszukajPoNazwisku(adresaci);
             break;
         case '4':
-            wypiszWszystkieOsoby(adresaci);
+            wypiszWszystkieOsoby(adresaci, idZalogowanegoUzytkownika);
             break;
         case '5':
             idOstatniegoAdresata = usunAdresata(adresaci, idOstatniegoAdresata);
