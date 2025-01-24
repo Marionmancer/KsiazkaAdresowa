@@ -1,4 +1,4 @@
-1|Kamil|haslo|
+1|Kamil|Kamil|
 2|Kamilos|haslo2|
 4|Testowy|tajne|
 5|Kasia|Ing|
