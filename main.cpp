@@ -336,18 +336,21 @@ int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
             idOstatniegoAdresata = adresat.idAdresata;
             break;
         case 2:
-            adresat.imie = linia;
+            adresat.idUzytkownika = atoi(linia.c_str());
             break;
         case 3:
-            adresat.nazwisko = linia;
+            adresat.imie = linia;
             break;
         case 4:
-            adresat.numerTelefonu = stoi(linia);
+            adresat.nazwisko = linia;
             break;
         case 5:
-            adresat.eMail = linia;
+            adresat.numerTelefonu = stoi(linia);
             break;
         case 6:
+            adresat.eMail = linia;
+            break;
+        case 7:
             adresat.adres = linia;
             adresaci.push_back(adresat);
             nrLinii = 0;
