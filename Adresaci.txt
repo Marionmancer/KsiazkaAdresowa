@@ -1,6 +1,50 @@
-1|1|Kamil|Szamajda|132131|jaasa@ssz.pl|sads 1 23|
-3|2|Zbysio|Rysko|562786921|zbigniew.rysko@aha.en|Tam i owdzie 2|
-5|4|Enoine|Holme|131234234|kaa@maa.pl|tak 2 nie|
-6|5|Elon|Pomelon|754|elon@pomelon.com|Space 23 USA|
-9|2|Holme|Elone|232234234|ksdsa@maa.pl|tak 3232 nie|
-10|5|Enoine|Szamajda|131234234|kaa@maa.pl|tak 2 nie|
+1|1|Magdalena|Lewandowski|765957106|magdalena.lewandowski@gmail.com|ul. Słoneczna 21, Lublin|
+2|10|Magdalena|Krawczyk|758550411|magdalena.krawczyk@onet.pl|ul. Górska 48, Gdańsk|
+3|8|Joanna|Wiśniewski|601258254|joanna.wiśniewski@gmail.com|ul. Słoneczna 3, Bydgoszcz|
+4|9|Ewa|Piotrowski|648720527|ewa.piotrowski@onet.pl|ul. Słoneczna 40, Łódź|
+5|7|Agnieszka|Dąbrowski|651272787|agnieszka.dąbrowski@onet.pl|ul. Brzozowa 2, Gdańsk|
+6|7|Tomasz|Kowalski|618873367|tomasz.kowalski@o2.pl|ul. Ogrodowa 32, Gdańsk|
+7|2|Tomasz|Pawłowski|646458644|tomasz.pawłowski@interia.pl|ul. Leśna 37, Lublin|
+8|6|Grażyna|Woźniak|710252209|grażyna.woźniak@onet.pl|ul. Lipowa 34, Szczecin|
+9|9|Grażyna|Król|791351300|grażyna.król@gmail.com|ul. Lipowa 25, Łódź|
+10|6|Marek|Pawłowski|668278404|marek.pawłowski@o2.pl|ul. Polna 11, Szczecin|
+11|2|Magdalena|Dąbrowski|737992582|magdalena.dąbrowski@gmail.com|ul. Brzozowa 24, Lublin|
+12|8|Marcin|Wiśniewski|664416660|marcin.wiśniewski@onet.pl|ul. Polna 15, Szczecin|
+13|6|Paweł|Krawczyk|762938635|paweł.krawczyk@onet.pl|ul. Spacerowa 36, Szczecin|
+14|1|Grażyna|Górski|662331598|grażyna.górski@interia.pl|ul. Słoneczna 9, Lublin|
+15|9|Krzysztof|Kaczmarek|629974243|krzysztof.kaczmarek@interia.pl|ul. Spacerowa 36, Gdańsk|
+16|1|Agnieszka|Szymański|701499660|agnieszka.szymański@onet.pl|ul. Polna 41, Katowice|
+17|2|Joanna|Pawłowski|791180723|joanna.pawłowski@onet.pl|ul. Krótka 37, Szczecin|
+18|3|Ewa|Mazur|627225541|ewa.mazur@interia.pl|ul. Ogrodowa 49, Wrocław|
+19|6|Marek|Dąbrowski|797137656|marek.dąbrowski@interia.pl|ul. Krótka 25, Lublin|
+20|8|Magdalena|Adamczyk|674790470|magdalena.adamczyk@interia.pl|ul. Górska 5, Lublin|
+21|6|Ewa|Adamczyk|724678834|ewa.adamczyk@onet.pl|ul. Ogrodowa 45, Wrocław|
+22|9|Ewa|Kowalski|665327423|ewa.kowalski@onet.pl|ul. Górska 46, Łódź|
+23|7|Tomasz|Piotrowski|620183971|tomasz.piotrowski@interia.pl|ul. Krótka 8, Poznań|
+24|10|Zofia|Krawczyk|649338322|zofia.krawczyk@onet.pl|ul. Spacerowa 50, Gdańsk|
+25|7|Dorota|Wiśniewski|643131319|dorota.wiśniewski@gmail.com|ul. Ogrodowa 19, Łódź|
+26|9|Piotr|Górski|603942235|piotr.górski@interia.pl|ul. Słoneczna 2, Lublin|
+27|8|Tomasz|Krawczyk|605572962|tomasz.krawczyk@wp.pl|ul. Krótka 12, Gdańsk|
+28|6|Piotr|Jankowski|727952550|piotr.jankowski@o2.pl|ul. Słoneczna 17, Warszawa|
+29|10|Jan|Wiśniewski|614720650|jan.wiśniewski@o2.pl|ul. Ogrodowa 18, Poznań|
+30|9|Agnieszka|Wójcik|668898582|agnieszka.wójcik@o2.pl|ul. Krótka 15, Łódź|
+31|4|Monika|Piotrowski|688204679|monika.piotrowski@wp.pl|ul. Górska 22, Lublin|
+32|7|Grażyna|Król|771728197|grażyna.król@wp.pl|ul. Lipowa 49, Katowice|
+33|8|Katarzyna|Dąbrowski|765635162|katarzyna.dąbrowski@o2.pl|ul. Długa 4, Wrocław|
+34|4|Marek|Krawczyk|732908718|marek.krawczyk@o2.pl|ul. Spacerowa 15, Łódź|
+35|7|Piotr|Kowalski|602473971|piotr.kowalski@onet.pl|ul. Brzozowa 49, Bydgoszcz|
+36|3|Piotr|Wójcik|615421621|piotr.wójcik@wp.pl|ul. Słoneczna 45, Gdańsk|
+37|9|Agnieszka|Woźniak|705448146|agnieszka.woźniak@gmail.com|ul. Górska 6, Szczecin|
+38|10|Grażyna|Zieliński|679968890|grażyna.zieliński@onet.pl|ul. Ogrodowa 41, Gdańsk|
+39|1|Marcin|Jankowski|662603200|marcin.jankowski@onet.pl|ul. Spacerowa 2, Kraków|
+40|4|Łukasz|Nowicki|648114245|łukasz.nowicki@interia.pl|ul. Długa 20, Poznań|
+41|7|Joanna|Pawłowski|758892118|joanna.pawłowski@interia.pl|ul. Leśna 39, Szczecin|
+42|5|Joanna|Wójcik|744375140|joanna.wójcik@wp.pl|ul. Krótka 47, Poznań|
+43|9|Ewa|Górski|611597790|ewa.górski@gmail.com|ul. Leśna 14, Poznań|
+44|10|Ewa|Adamczyk|747239172|ewa.adamczyk@o2.pl|ul. Leśna 36, Warszawa|
+45|9|Monika|Pawłowski|727695752|monika.pawłowski@gmail.com|ul. Długa 10, Szczecin|
+46|2|Monika|Wiśniewski|635674805|monika.wiśniewski@o2.pl|ul. Górska 41, Kraków|
+47|4|Monika|Dąbrowski|618461334|monika.dąbrowski@gmail.com|ul. Polna 28, Warszawa|
+48|10|Krzysztof|Zieliński|669493134|krzysztof.zieliński@onet.pl|ul. Ogrodowa 6, Wrocław|
+49|8|Jan|Wójcik|665485832|jan.wójcik@interia.pl|ul. Górska 4, Gdańsk|
+50|2|Dorota|Jankowski|633699715|dorota.jankowski@onet.pl|ul. Polna 37, Łódź|
