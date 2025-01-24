@@ -46,7 +46,6 @@ string wczytajAdresEmail () {
 
     while (true) {
         cin.sync();
-        cout << "Podaj adres e-mail" << endl;
         getline(cin, wejscie);
 
         for (size_t i = 0; i < wejscie.length(); i++) {
@@ -119,12 +118,13 @@ void wyswietlMenuEdycjiAdresatow() {
     cout << "6. Powrot do menu" << endl;
 }
 
-int dodajNowaOsobeDoKsiazki (vector <Adresat> &adresaci, int idOstatniegoAdresata) {
+int dodajNowaOsobeDoKsiazki (vector <Adresat> &adresaci, int idOstatniegoAdresata, int idZalogowanegoUzytkownika) {
 
     Adresat adresat;
     idOstatniegoAdresata++;
 
     adresat.idAdresata = idOstatniegoAdresata;
+    adresat.idUzytkownika = idZalogowanegoUzytkownika;
     cout << "Podaj imie: ";
     adresat.imie = wczytajLinie();
     cout << "Podaj nazwisko: ";
@@ -432,7 +432,7 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
 
         switch(wybor) {
         case '1':
-            idOstatniegoAdresata = dodajNowaOsobeDoKsiazki(adresaci, idOstatniegoAdresata);
+            idOstatniegoAdresata = dodajNowaOsobeDoKsiazki(adresaci, idOstatniegoAdresata, idZalogowanegoUzytkownika);
             zapiszKsiazkeAdresowa(adresaci);
             break;
         case '2':
