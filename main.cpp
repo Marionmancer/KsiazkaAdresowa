@@ -332,6 +332,37 @@ void zapiszDaneUzytkownikow(vector <Uzytkownik> uzytkownicy) {
     plik.close();
 }
 
+int zwrocIdOstatniegoAdresataWPliku (){
+    fstream plik;
+    int idOstatniegoAdresata = 0;
+    int nrLinii = 1;
+
+    plik.open("Adresaci.txt", ios::in);
+
+    if (plik.good() == false) {
+        cout << "Plik nie istnieje!";
+        return idOstatniegoAdresata;
+    }
+
+    string linia;
+    while (getline(plik,linia,'|')) {
+        switch (nrLinii) {
+        case 1:
+            idOstatniegoAdresata = atoi(linia.c_str());
+            break;
+        case 7:
+            nrLinii = 0;
+            break;
+        default: ;
+        }
+        nrLinii++;
+    }
+
+    plik.close();
+
+    return idOstatniegoAdresata;
+}
+
 int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
     fstream plik;
     int idOstatniegoAdresata = 0;
