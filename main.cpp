@@ -151,7 +151,8 @@ void wyszukajPoImieniu (vector <Adresat> adresaci) {
     for (size_t i=0; i < adresaci.size(); i++) {
         if(adresaci[i].imie == wyszukiwaneImie) {
             czyZnalezionoOsobe = true;
-            cout <<"ID: \t\t\t\t" << adresaci[i].idAdresata << endl;
+            cout <<"ID adresata: \t\t\t" << adresaci[i].idAdresata << endl;
+            cout <<"ID uzytkownika: \t\t" << adresaci[i].idAdresata << endl;
             cout <<"Imie: \t\t\t\t" << adresaci[i].imie << endl;
             cout <<"Nazwisko: \t\t\t" << adresaci[i].nazwisko << endl;
             cout <<"Numer telefonu: \t\t" << adresaci[i].numerTelefonu << endl;
@@ -176,7 +177,8 @@ void wyszukajPoNazwisku (vector <Adresat> adresaci) {
     for (size_t i=0; i < adresaci.size(); i++) {
         if(adresaci[i].nazwisko == wyszukiwaneNazwisko) {
             czyZnalezionoOsobe = true;
-            cout <<"ID: \t\t\t\t" << adresaci[i].idAdresata << endl;
+            cout <<"ID adresata: \t\t\t" << adresaci[i].idAdresata << endl;
+            cout <<"ID uzytkownika: \t\t" << adresaci[i].idAdresata << endl;
             cout <<"Imie: \t\t\t\t" << adresaci[i].imie << endl;
             cout <<"Nazwisko: \t\t\t" << adresaci[i].nazwisko << endl;
             cout <<"Numer telefonu: \t\t" << adresaci[i].numerTelefonu << endl;
@@ -196,7 +198,8 @@ void wypiszWszystkieOsoby (vector <Adresat> adresaci) {
     system("cls");
     if (adresaci.size() > 0) {
         for (size_t i=0; i < adresaci.size(); i++) {
-            cout <<"ID: \t\t\t\t" << adresaci[i].idAdresata << endl;
+            cout <<"ID adresata: \t\t\t" << adresaci[i].idAdresata << endl;
+            cout <<"ID uzytkownika: \t\t" << adresaci[i].idAdresata << endl;
             cout <<"Imie: \t\t\t\t" << adresaci[i].imie << endl;
             cout <<"Nazwisko: \t\t\t" << adresaci[i].nazwisko << endl;
             cout <<"Numer telefonu: \t\t" << adresaci[i].numerTelefonu << endl;
