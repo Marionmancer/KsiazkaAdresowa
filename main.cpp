@@ -8,7 +8,8 @@
 using namespace std;
 
 struct Adresat {
-    int id = 0;
+    int idAdresata = 0;
+    int idUzytkownika = 0;
     string imie ="";
     string nazwisko ="";
     int numerTelefonu = 0;
@@ -123,7 +124,7 @@ int dodajNowaOsobeDoKsiazki (vector <Adresat> &adresaci, int idOstatniegoAdresat
     Adresat adresat;
     idOstatniegoAdresata++;
 
-    adresat.id = idOstatniegoAdresata;
+    adresat.idAdresata = idOstatniegoAdresata;
     cout << "Podaj imie: ";
     adresat.imie = wczytajLinie();
     cout << "Podaj nazwisko: ";
@@ -150,7 +151,7 @@ void wyszukajPoImieniu (vector <Adresat> adresaci) {
     for (size_t i=0; i < adresaci.size(); i++) {
         if(adresaci[i].imie == wyszukiwaneImie) {
             czyZnalezionoOsobe = true;
-            cout <<"ID: \t\t\t\t" << adresaci[i].id << endl;
+            cout <<"ID: \t\t\t\t" << adresaci[i].idAdresata << endl;
             cout <<"Imie: \t\t\t\t" << adresaci[i].imie << endl;
             cout <<"Nazwisko: \t\t\t" << adresaci[i].nazwisko << endl;
             cout <<"Numer telefonu: \t\t" << adresaci[i].numerTelefonu << endl;
@@ -175,7 +176,7 @@ void wyszukajPoNazwisku (vector <Adresat> adresaci) {
     for (size_t i=0; i < adresaci.size(); i++) {
         if(adresaci[i].nazwisko == wyszukiwaneNazwisko) {
             czyZnalezionoOsobe = true;
-            cout <<"ID: \t\t\t\t" << adresaci[i].id << endl;
+            cout <<"ID: \t\t\t\t" << adresaci[i].idAdresata << endl;
             cout <<"Imie: \t\t\t\t" << adresaci[i].imie << endl;
             cout <<"Nazwisko: \t\t\t" << adresaci[i].nazwisko << endl;
             cout <<"Numer telefonu: \t\t" << adresaci[i].numerTelefonu << endl;
@@ -195,7 +196,7 @@ void wypiszWszystkieOsoby (vector <Adresat> adresaci) {
     system("cls");
     if (adresaci.size() > 0) {
         for (size_t i=0; i < adresaci.size(); i++) {
-            cout <<"ID: \t\t\t\t" << adresaci[i].id << endl;
+            cout <<"ID: \t\t\t\t" << adresaci[i].idAdresata << endl;
             cout <<"Imie: \t\t\t\t" << adresaci[i].imie << endl;
             cout <<"Nazwisko: \t\t\t" << adresaci[i].nazwisko << endl;
             cout <<"Numer telefonu: \t\t" << adresaci[i].numerTelefonu << endl;
@@ -217,7 +218,7 @@ void edytujDaneAdresata (vector <Adresat> &adresaci) {
 
     for (vector <Adresat> :: iterator itr = adresaci.begin();
             itr != adresaci.end(); itr++) {
-        if (itr->id == idAdresataDoEdycji) {
+        if (itr->idAdresata == idAdresataDoEdycji) {
             wyswietlMenuEdycjiAdresatow();
             czyAdresatJestWKsiazce = true;
             char wybor;
@@ -264,10 +265,10 @@ int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata) {
         for (vector <Adresat> :: iterator itr = adresaci.begin();
                 itr != adresaci.end(); itr++) {
 
-            if (itr->id == idAdresataDoUsuniecia) {
+            if (itr->idAdresata == idAdresataDoUsuniecia) {
                 czyAdresatOPodanymIdJestWKsiazce = true;
                 adresaci.erase(itr);
-                idOstatniegoAdresata = adresaci[adresaci.size()-1].id;
+                idOstatniegoAdresata = adresaci[adresaci.size()-1].idAdresata;
                 if(itr == adresaci.end()) {
                     break;
                 }
@@ -289,7 +290,7 @@ void zapiszKsiazkeAdresowa(vector <Adresat> adresaci) {
 
     for (size_t i = 0; i < adresaci.size(); i++) {
         if(i > 0) plik << endl;
-        plik << adresaci[i].id << "|";
+        plik << adresaci[i].idAdresata << "|";
         plik << adresaci[i].imie << "|";
         plik << adresaci[i].nazwisko << "|";
         plik << adresaci[i].numerTelefonu << "|";
@@ -331,8 +332,8 @@ int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
     while (getline(plik,linia,'|')) {
         switch (nrLinii) {
         case 1:
-            adresat.id = atoi(linia.c_str());
-            idOstatniegoAdresata = adresat.id;
+            adresat.idAdresata = atoi(linia.c_str());
+            idOstatniegoAdresata = adresat.idAdresata;
             break;
         case 2:
             adresat.imie = linia;
