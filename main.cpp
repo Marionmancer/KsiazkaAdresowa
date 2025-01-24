@@ -417,7 +417,7 @@ int odczytDanychLogowaniaUzytkownikow (vector <Uzytkownik> &uzytkownicy) {
     return idOstatniegoUzytkownika;
 }
 
-void panelOpcjiUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika) {
+void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika) {
     vector <Adresat> adresaci;
     int idOstatniegoAdresata = 0;
 
@@ -535,17 +535,14 @@ int main() {
 
         switch(wybor) {
         case '1':
-            //Logowanie
             idZalogowanegoUzytkownika = logowanieUzytkownika(uzytkownicy);
-            panelOpcjiUzytkownika(uzytkownicy, idZalogowanegoUzytkownika);
+            panelMenuUzytkownika(uzytkownicy, idZalogowanegoUzytkownika);
             break;
         case '2':
-            //Rejestracja
             idOstatniegoUzytkownika = rejestracjaNowegoUzytkownika (uzytkownicy, idOstatniegoUzytkownika);
             zapiszDaneUzytkownikow(uzytkownicy);
             break;
         case '9':
-            //Zakonczenie programu
             zapiszDaneUzytkownikow(uzytkownicy);
             exit(0);
             break;
