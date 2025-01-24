@@ -291,6 +291,7 @@ void zapiszKsiazkeAdresowa(vector <Adresat> adresaci) {
     for (size_t i = 0; i < adresaci.size(); i++) {
         if(i > 0) plik << endl;
         plik << adresaci[i].idAdresata << "|";
+        plik << adresaci[i].idUzytkownika << "|";
         plik << adresaci[i].imie << "|";
         plik << adresaci[i].nazwisko << "|";
         plik << adresaci[i].numerTelefonu << "|";
