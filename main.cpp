@@ -367,7 +367,7 @@ int zwrocIdOstatniegoAdresataWPliku (){
     return idOstatniegoAdresata;
 }
 
-int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
+int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
     fstream plik;
     int idOstatniegoAdresata = 0;
     int nrLinii = 1;
@@ -384,8 +384,8 @@ int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
     while (getline(plik,linia,'|')) {
         switch (nrLinii) {
         case 1:
-            adresat.idAdresata = atoi(linia.c_str());
-            idOstatniegoAdresata = adresat.idAdresata;
+            idOstatniegoAdresata = atoi(linia.c_str());
+            adresat.idAdresata = idOstatniegoAdresata;
             break;
         case 2:
             adresat.idUzytkownika = atoi(linia.c_str());
@@ -404,7 +404,8 @@ int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci) {
             break;
         case 7:
             adresat.adres = linia;
-            adresaci.push_back(adresat);
+            if (adresat.idUzytkownika == idZalogowanegoUzytkownika)
+                adresaci.push_back(adresat);
             nrLinii = 0;
             break;
         }
@@ -458,7 +459,7 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
 
     char wybor = (0);
 
-    idOstatniegoAdresata = odczytDanychKsiazkiAdresowej(adresaci);
+    idOstatniegoAdresata = odczytDanychKsiazkiAdresowej(adresaci, idZalogowanegoUzytkownika);
 
     while(idZalogowanegoUzytkownika != 0) {
         wyswietlMenuUzytkownika();
