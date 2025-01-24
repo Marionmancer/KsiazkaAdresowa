@@ -141,7 +141,7 @@ int dodajNowaOsobeDoKsiazki (vector <Adresat> &adresaci, int idOstatniegoAdresat
     return idOstatniegoAdresata;
 }
 
-void wyszukajPoImieniu (vector <Adresat> adresaci) {
+void wyszukajPoImieniu (vector <Adresat> adresaci, int idZalogowanegoUzytkownika) {
     string wyszukiwaneImie="";
     bool czyZnalezionoOsobe = false;
     cout << "Podaj imie do wyszukania w ksiazce adresowej: ";
@@ -149,7 +149,7 @@ void wyszukajPoImieniu (vector <Adresat> adresaci) {
 
     system("cls");
     for (size_t i=0; i < adresaci.size(); i++) {
-        if(adresaci[i].imie == wyszukiwaneImie) {
+        if(adresaci[i].imie == wyszukiwaneImie && adresaci[i].idUzytkownika == idZalogowanegoUzytkownika) {
             czyZnalezionoOsobe = true;
             cout <<"ID adresata: \t\t\t" << adresaci[i].idAdresata << endl;
             cout <<"ID uzytkownika: \t\t" << adresaci[i].idAdresata << endl;
@@ -436,7 +436,7 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
             zapiszKsiazkeAdresowa(adresaci);
             break;
         case '2':
-            wyszukajPoImieniu(adresaci);
+            wyszukajPoImieniu(adresaci, idZalogowanegoUzytkownika);
             break;
         case '3':
             wyszukajPoNazwisku(adresaci);
