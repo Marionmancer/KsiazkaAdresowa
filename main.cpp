@@ -283,6 +283,19 @@ int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata) {
     return idOstatniegoAdresata;
 }
 
+void zmianaHaslaLogowania(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika){
+    string haslo;
+    const int POZYCJA_ZALOGOWANEGO_UZYTKOWNIKA_W_WEKTORZE = idZalogowanegoUzytkownika - 1;
+
+    cout << "Podaj haslo: ";
+    cin.sync();
+    cin >> haslo;
+
+    uzytkownicy[POZYCJA_ZALOGOWANEGO_UZYTKOWNIKA_W_WEKTORZE].haslo = haslo;
+    cout << "Haslo zostalo zmienione " << endl;
+    Sleep(1000);
+}
+
 void zapiszKsiazkeAdresowa(vector <Adresat> adresaci) {
     fstream plik;
     plik.open("Adresaci.txt", ios::out);
@@ -396,7 +409,7 @@ int odczytDanychLogowaniaUzytkownikow (vector <Uzytkownik> &uzytkownicy) {
     return idOstatniegoUzytkownika;
 }
 
-void panelOpcjiUzytkownika(vector <Uzytkownik> uzytkownicy, int idZalogowanegoUzytkownika) {
+void panelOpcjiUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika) {
     vector <Adresat> adresaci;
     int idOstatniegoAdresata = 0;
 
@@ -428,6 +441,11 @@ void panelOpcjiUzytkownika(vector <Uzytkownik> uzytkownicy, int idZalogowanegoUz
             break;
         case '6':
             edytujDaneAdresata(adresaci);
+            zapiszKsiazkeAdresowa(adresaci);
+            break;
+        case '7':
+            zmianaHaslaLogowania(uzytkownicy, idZalogowanegoUzytkownika);
+            zapiszDaneUzytkownikow(uzytkownicy);
             break;
         case '9':
             zapiszKsiazkeAdresowa(adresaci);
@@ -437,7 +455,7 @@ void panelOpcjiUzytkownika(vector <Uzytkownik> uzytkownicy, int idZalogowanegoUz
     }
 }
 
-int logowanie(vector <Uzytkownik> uzytkownicy) {
+int logowanieUzytkownika(vector <Uzytkownik> uzytkownicy) {
     string login, haslo;
     cout << "Podaj login: ";
     cin >> login;
@@ -510,7 +528,7 @@ int main() {
         switch(wybor) {
         case '1':
             //Logowanie
-            idZalogowanegoUzytkownika = logowanie(uzytkownicy);
+            idZalogowanegoUzytkownika = logowanieUzytkownika(uzytkownicy);
             panelOpcjiUzytkownika(uzytkownicy, idZalogowanegoUzytkownika);
             break;
         case '2':
@@ -520,10 +538,10 @@ int main() {
             break;
         case '9':
             //Zakonczenie programu
+            zapiszDaneUzytkownikow(uzytkownicy);
             exit(0);
             break;
         }
     }
-
     return 0;
 }
