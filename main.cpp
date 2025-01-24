@@ -449,6 +449,36 @@ int logowanie(vector <Uzytkownik> uzytkownicy) {
     return 0;
 }
 
+int rejestracjaNowegoUzytkownika (vector <Uzytkownik> &uzytkownicy, int idOstatniegoUzytkownika) {
+    string login, haslo;
+    Uzytkownik uzytkownik;
+    cout << "Podaj nazwe uzytkownika: ";
+    cin >> login;
+
+    size_t i=0;
+    while(i < uzytkownicy.size()) {
+        if (uzytkownicy[i].loginUzytkownika == login) {
+            cout << "Taki uzytkownik istnieje. Wpisz inna nazwe uzytkownika: ";
+            cin >> login;
+            i = 0;
+        } else {
+            i++;
+        }
+    }
+    cout << "Podaj haslo: ";
+    cin >> haslo;
+
+    idOstatniegoUzytkownika++;
+    uzytkownik.loginUzytkownika = login;
+    uzytkownik.haslo = haslo;
+    uzytkownik.idUzytkownika = idOstatniegoUzytkownika;
+    uzytkownicy.push_back(uzytkownik);
+    cout << "Konto zalozone " << endl;
+    Sleep(1000);
+
+    return idOstatniegoUzytkownika;
+}
+
 int main() {
 
     vector <Uzytkownik> uzytkownicy;
@@ -471,6 +501,7 @@ int main() {
             break;
         case '2':
             //Rejestracja
+            idOstatniegoUzytkownika = rejestracjaNowegoUzytkownika (uzytkownicy, idOstatniegoUzytkownika);
             break;
         case '9':
             //Zakonczenie programu
