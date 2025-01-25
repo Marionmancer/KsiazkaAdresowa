@@ -118,9 +118,51 @@ void wyswietlMenuEdycjiAdresatow() {
     cout << "6. Powrot do menu" << endl;
 }
 
-int dodajNowaOsobeDoKsiazki (vector <Adresat> &adresaci, int idOstatniegoAdresata, int idZalogowanegoUzytkownika) {
+int zwrocIdOstatniegoAdresataWPliku (){
+
+    int idOstatniegoAdresata = 0;
+    fstream plik;
+    string nazwaPliku = "Adresaci.txt";
+
+    plik.open(nazwaPliku, ios::in);
+
+    if (plik.good() == false) {
+        return idOstatniegoAdresata;
+    }
+
+    if(plik.is_open()) {
+        plik.seekg(-1,ios_base::end);
+
+        bool czyNadalPoszukujeWPetliOstatniegoId = true;
+        while(czyNadalPoszukujeWPetliOstatniegoId) {
+            char ch;
+            plik.get(ch);
+
+            if((int)plik.tellg() <= 1) {
+                plik.seekg(0);
+                czyNadalPoszukujeWPetliOstatniegoId = false;
+            }
+            else if(ch == '\n') {
+                czyNadalPoszukujeWPetliOstatniegoId = false;
+            }
+            else {
+                plik.seekg(-2,ios_base::cur);
+            }
+        }
+        string ostatnieIdOdczytaneZPliku = "";
+        getline(plik,ostatnieIdOdczytaneZPliku,'|');
+        idOstatniegoAdresata = atoi(ostatnieIdOdczytaneZPliku.c_str());
+    }
+    plik.close();
+
+    return idOstatniegoAdresata;
+}
+
+void dodajNowaOsobeDoKsiazki (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
 
     Adresat adresat;
+    int idOstatniegoAdresata=0;
+    idOstatniegoAdresata = zwrocIdOstatniegoAdresataWPliku();
     idOstatniegoAdresata++;
 
     adresat.idAdresata = idOstatniegoAdresata;
@@ -137,8 +179,6 @@ int dodajNowaOsobeDoKsiazki (vector <Adresat> &adresaci, int idOstatniegoAdresat
     adresat.adres = wczytajLinie();
 
     adresaci.push_back(adresat);
-
-    return idOstatniegoAdresata;
 }
 
 void wyszukajPoImieniu (vector <Adresat> adresaci, int idZalogowanegoUzytkownika) {
@@ -257,7 +297,7 @@ void edytujDaneAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkowni
     system("cls");
 }
 
-int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata, int idZalogowanegoUzytkownika) {
+void usunAdresata (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
 
     int idAdresataDoUsuniecia;
     bool czyAdresatOPodanymIdJestWKsiazce = false;
@@ -273,7 +313,6 @@ int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata, int idZa
             if (itr->idAdresata == idAdresataDoUsuniecia && itr->idUzytkownika == idZalogowanegoUzytkownika) {
                 czyAdresatOPodanymIdJestWKsiazce = true;
                 adresaci.erase(itr);
-                idOstatniegoAdresata = adresaci[adresaci.size()-1].idAdresata;
                 cout << "Adresata o podanym numerze ID zostal usuniety!" << endl;
                 system("pause");
                 if(itr == adresaci.end()) {
@@ -287,8 +326,6 @@ int usunAdresata (vector <Adresat> &adresaci, int idOstatniegoAdresata, int idZa
         cout << "Adresata o podanym numerze ID nie ma w ksiazce!" << endl;
         system("pause");
     }
-
-    return idOstatniegoAdresata;
 }
 
 void zmianaHaslaLogowania(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika){
@@ -336,85 +373,46 @@ void zapiszDaneUzytkownikow(vector <Uzytkownik> uzytkownicy) {
     plik.close();
 }
 
-int zwrocIdOstatniegoAdresataWPliku (){
+void odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
     fstream plik;
-    int idOstatniegoAdresata = 0;
-    int nrLinii = 1;
-
-    plik.open("Adresaci.txt", ios::in);
-
-    if (plik.good() == false) {
-        cout << "Plik nie istnieje!";
-        return idOstatniegoAdresata;
-    }
-
-    string linia;
-    while (getline(plik,linia,'|')) {
-        switch (nrLinii) {
-        case 1:
-            idOstatniegoAdresata = atoi(linia.c_str());
-            break;
-        case 7:
-            nrLinii = 0;
-            break;
-        default: ;
-        }
-        nrLinii++;
-    }
-
-    plik.close();
-
-    return idOstatniegoAdresata;
-}
-
-int odczytDanychKsiazkiAdresowej (vector <Adresat> &adresaci, int idZalogowanegoUzytkownika) {
-    fstream plik;
-    int idOstatniegoAdresata = 0;
     int nrLinii = 1;
     Adresat adresat;
 
     plik.open("Adresaci.txt", ios::in);
 
-    if (plik.good() == false) {
-        cout << "Plik nie istnieje!";
-        return idOstatniegoAdresata;
-    }
-
-    string linia;
-    while (getline(plik,linia,'|')) {
-        switch (nrLinii) {
-        case 1:
-            idOstatniegoAdresata = atoi(linia.c_str());
-            adresat.idAdresata = idOstatniegoAdresata;
-            break;
-        case 2:
-            adresat.idUzytkownika = atoi(linia.c_str());
-            break;
-        case 3:
-            adresat.imie = linia;
-            break;
-        case 4:
-            adresat.nazwisko = linia;
-            break;
-        case 5:
-            adresat.numerTelefonu = stoi(linia);
-            break;
-        case 6:
-            adresat.eMail = linia;
-            break;
-        case 7:
-            adresat.adres = linia;
-            if (adresat.idUzytkownika == idZalogowanegoUzytkownika)
-                adresaci.push_back(adresat);
-            nrLinii = 0;
-            break;
+    if (plik.good() == true) {
+        string linia;
+        while (getline(plik,linia,'|')) {
+            switch (nrLinii) {
+            case 1:
+                adresat.idAdresata = atoi(linia.c_str());
+                break;
+            case 2:
+                adresat.idUzytkownika = atoi(linia.c_str());
+                break;
+            case 3:
+                adresat.imie = linia;
+                break;
+            case 4:
+                adresat.nazwisko = linia;
+                break;
+            case 5:
+                adresat.numerTelefonu = stoi(linia);
+                break;
+            case 6:
+                adresat.eMail = linia;
+                break;
+            case 7:
+                adresat.adres = linia;
+                if (adresat.idUzytkownika == idZalogowanegoUzytkownika)
+                    adresaci.push_back(adresat);
+                nrLinii = 0;
+                break;
+            }
+            nrLinii++;
         }
-        nrLinii++;
+        plik.close();
     }
-
-    plik.close();
-
-    return idOstatniegoAdresata;
 }
 
 int odczytDanychLogowaniaUzytkownikow (vector <Uzytkownik> &uzytkownicy) {
@@ -455,11 +453,9 @@ int odczytDanychLogowaniaUzytkownikow (vector <Uzytkownik> &uzytkownicy) {
 
 void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUzytkownika) {
     vector <Adresat> adresaci;
-    int idOstatniegoAdresata = 0;
+    odczytDanychKsiazkiAdresowej (adresaci, idZalogowanegoUzytkownika);
 
     char wybor = (0);
-
-    idOstatniegoAdresata = odczytDanychKsiazkiAdresowej(adresaci, idZalogowanegoUzytkownika);
 
     while(idZalogowanegoUzytkownika != 0) {
         wyswietlMenuUzytkownika();
@@ -468,7 +464,7 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
 
         switch(wybor) {
         case '1':
-            idOstatniegoAdresata = dodajNowaOsobeDoKsiazki(adresaci, idOstatniegoAdresata, idZalogowanegoUzytkownika);
+            dodajNowaOsobeDoKsiazki(adresaci, idZalogowanegoUzytkownika);
             zapiszKsiazkeAdresowa(adresaci);
             break;
         case '2':
@@ -481,7 +477,8 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
             wypiszWszystkieOsoby(adresaci, idZalogowanegoUzytkownika);
             break;
         case '5':
-            idOstatniegoAdresata = usunAdresata(adresaci, idOstatniegoAdresata, idZalogowanegoUzytkownika);
+            usunAdresata(adresaci, idZalogowanegoUzytkownika);
+            zapiszKsiazkeAdresowa(adresaci);
             break;
         case '6':
             edytujDaneAdresata(adresaci, idZalogowanegoUzytkownika);
@@ -492,7 +489,6 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
             zapiszDaneUzytkownikow(uzytkownicy);
             break;
         case '9':
-            zapiszKsiazkeAdresowa(adresaci);
             idZalogowanegoUzytkownika = 0;
             break;
         }
@@ -579,7 +575,6 @@ int main() {
             zapiszDaneUzytkownikow(uzytkownicy);
             break;
         case '9':
-            zapiszDaneUzytkownikow(uzytkownicy);
             exit(0);
             break;
         }
