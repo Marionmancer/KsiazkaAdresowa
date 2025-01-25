@@ -344,16 +344,15 @@ void zmianaHaslaLogowania(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
 void zapiszKsiazkeAdresowa(vector <Adresat> adresaci, int idZalogowanegoUzytkownika) {
     fstream plikTymczasowy;
     fstream plikOryginalny;
-    int nrLinii = 1;
     int idAdresataWPlikuOryginalnym = 0;
     int idUzytkownikaWPlikuOryginalnym = 0;
+    size_t pozycjaWWektorze = 0;
 
     plikTymczasowy.open("Adresaci_tymczasowy.txt", ios::out);
     plikOryginalny.open("Adresaci.txt", ios::in);
     if (plikOryginalny.good() == true) {
         string linia;
-        size_t pozycjaWWektorze = 0;
-        while (getline(plik,linia)) {
+        while (getline(plikOryginalny,linia)) {
             idAdresataWPlikuOryginalnym = atoi(linia.substr(0,linia.find('|')).c_str());
             idUzytkownikaWPlikuOryginalnym = atoi(linia.substr(linia.find('|') + 1,linia.find('|',2)).c_str());
 
@@ -392,7 +391,7 @@ void zapiszKsiazkeAdresowa(vector <Adresat> adresaci, int idZalogowanegoUzytkown
 
     if (plikOryginalny.good() == true){
         plikOryginalny.close();
-        remove(plikOryginalny);
+        remove("Adresaci.txt");
     }
     rename("Adresaci_tymczasowy.txt","Adresaci.txt");
 }
