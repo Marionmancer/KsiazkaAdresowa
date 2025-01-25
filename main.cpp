@@ -344,6 +344,7 @@ void zmianaHaslaLogowania(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
 void zapiszKsiazkeAdresowa(vector <Adresat> adresaci, int idZalogowanegoUzytkownika) {
     fstream plikTymczasowy;
     fstream plikOryginalny;
+    int nrLinii = 1;
     int idAdresataWPlikuOryginalnym = 0;
     int idUzytkownikaWPlikuOryginalnym = 0;
     size_t pozycjaWWektorze = 0;
@@ -358,7 +359,7 @@ void zapiszKsiazkeAdresowa(vector <Adresat> adresaci, int idZalogowanegoUzytkown
 
             if (idAdresataWPlikuOryginalnym == adresaci[pozycjaWWektorze].idAdresata &&
             idUzytkownikaWPlikuOryginalnym == idZalogowanegoUzytkownika){
-                if(pozycjaWWektorze > 0) plikTymczasowy << endl;
+                if(nrLinii > 1) plikTymczasowy << endl;
                 plikTymczasowy << adresaci[pozycjaWWektorze].idAdresata << "|";
                 plikTymczasowy << adresaci[pozycjaWWektorze].idUzytkownika << "|";
                 plikTymczasowy << adresaci[pozycjaWWektorze].imie << "|";
@@ -366,15 +367,19 @@ void zapiszKsiazkeAdresowa(vector <Adresat> adresaci, int idZalogowanegoUzytkown
                 plikTymczasowy << adresaci[pozycjaWWektorze].numerTelefonu << "|";
                 plikTymczasowy << adresaci[pozycjaWWektorze].eMail << "|";
                 plikTymczasowy << adresaci[pozycjaWWektorze].adres << "|";
-                pozycjaWWektorze++;
+                ++pozycjaWWektorze;
             } else if (idAdresataWPlikuOryginalnym != adresaci[pozycjaWWektorze].idAdresata &&
                        idUzytkownikaWPlikuOryginalnym != idZalogowanegoUzytkownika){
+                if(nrLinii > 1) plikTymczasowy <<endl;
                 plikTymczasowy << linia;
             } else ;
+            nrLinii++;
         }
+        plikOryginalny.close();
+        remove("Adresaci.txt");
     }
 
-    if (pozycjaWWektorze < adresaci.size() - 1){
+    if (pozycjaWWektorze <= adresaci.size() - 1){
         for (size_t i = pozycjaWWektorze; i < adresaci.size(); i++) {
             if(i > 0) plikTymczasowy << endl;
             plikTymczasowy << adresaci[i].idAdresata << "|";
@@ -388,11 +393,6 @@ void zapiszKsiazkeAdresowa(vector <Adresat> adresaci, int idZalogowanegoUzytkown
     }
 
     plikTymczasowy.close();
-
-    if (plikOryginalny.good() == true){
-        plikOryginalny.close();
-        remove("Adresaci.txt");
-    }
     rename("Adresaci_tymczasowy.txt","Adresaci.txt");
 }
 
