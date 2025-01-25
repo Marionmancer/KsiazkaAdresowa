@@ -341,25 +341,59 @@ void zmianaHaslaLogowania(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
     Sleep(1000);
 }
 
-void zapiszKsiazkeAdresowa(vector <Adresat> adresaci) {
-    fstream plik;
-    plik.open("Adresaci.txt", ios::out);
+//int zwrocParametrAdresataZWczytanejLinijki (string wczytanaLinijka, int numerParametru){
+//    int wczytanyParametr = 0;
+//
+//    int nrLinii = 1;
+//    string linia = "";
+//    while (getline(wczytanaLinijka,linia,'|')) {
+//        switch (nrLinii) {
+//        case numerParametru:
+//            wczytanyParametr = atoi(linia.c_str());
+//            break;
+//        default: ;
+//        }
+//        nrLinii++;
+//    }
+//
+//    return wczytanyParametr;
+//}
 
-    for (size_t i = 0; i < adresaci.size(); i++) {
-        if(i > 0) plik << endl;
-        plik << adresaci[i].idAdresata << "|";
-        plik << adresaci[i].idUzytkownika << "|";
-        plik << adresaci[i].imie << "|";
-        plik << adresaci[i].nazwisko << "|";
-        plik << adresaci[i].numerTelefonu << "|";
-        plik << adresaci[i].eMail << "|";
-        plik << adresaci[i].adres << "|";
+void zapiszKsiazkeAdresowa(vector <Adresat> adresaci) {
+    fstream plikTymczasowy;
+    fstream plikOryginalny;
+    int nrLinii = 1;
+    int idAdresataWPlikuOryginalnym = 0;
+    int idUzytkownikaWPlikuOryginalnym = 0;
+
+    plikTymczasowy.open("Adresaci_tymczasowy.txt", ios::out);
+    plikOryginalny.open("Adresaci.txt", ios::in);
+    if (plikOryginalny.good() == true) {
+        string linia;
+        int numerPozycjiAdresataWWektorze = 0;
+        while (getline(plik,linia)) {
+            idAdresataWPlikuOryginalnym = atoi(linia.substr(0,linia.find('|')).c_str());
+            idUzytkownikaWPlikuOryginalnym = atoi(linia.substr(linia.find('|') + 1,linia.find('|',2)).c_str());
+        }
     }
 
-    plik.close();
+    for (size_t i = 0; i < adresaci.size(); i++) {
+        if(i > 0) plikTymczasowy << endl;
+        plikTymczasowy << adresaci[i].idAdresata << "|";
+        plikTymczasowy << adresaci[i].idUzytkownika << "|";
+        plikTymczasowy << adresaci[i].imie << "|";
+        plikTymczasowy << adresaci[i].nazwisko << "|";
+        plikTymczasowy << adresaci[i].numerTelefonu << "|";
+        plikTymczasowy << adresaci[i].eMail << "|";
+        plikTymczasowy << adresaci[i].adres << "|";
+    }
+
+    plikTymczasowy.close();
+    //Usunac plik adresaci.txt
+    //Zmienic nazwe pliku tymczasowego
 }
 
-void zapiszDaneUzytkownikow(vector <Uzytkownik> uzytkownicy) {
+void zapiszDaneUzytkownikow(vector <Uzytkownik> uzytkownicy, int idZalogowanegoUzytkownika) {
     fstream plik;
     plik.open("Uzytkownicy.txt", ios::out);
 
@@ -486,7 +520,7 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
             break;
         case '7':
             zmianaHaslaLogowania(uzytkownicy, idZalogowanegoUzytkownika);
-            zapiszDaneUzytkownikow(uzytkownicy);
+            zapiszDaneUzytkownikow(uzytkownicy, idZalogowanegoUzytkownika);
             break;
         case '9':
             idZalogowanegoUzytkownika = 0;
@@ -572,7 +606,7 @@ int main() {
             break;
         case '2':
             idOstatniegoUzytkownika = rejestracjaNowegoUzytkownika (uzytkownicy, idOstatniegoUzytkownika);
-            zapiszDaneUzytkownikow(uzytkownicy);
+            zapiszDaneUzytkownikow(uzytkownicy, idZalogowanegoUzytkownika);
             break;
         case '9':
             exit(0);
