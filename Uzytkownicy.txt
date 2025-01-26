@@ -5,6 +5,6 @@
 5|Piotrek77|secure9|
 6|EwaL|admin|
 7|Luki23|user2023|
-8|Gosia01|easyone|
+8|Gosia01|proste|
 9|Marek12|test11|
 10|Zosia88|pikachu|
