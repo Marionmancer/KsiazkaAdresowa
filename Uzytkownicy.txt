@@ -3,7 +3,7 @@
 3|TomekX|passme|
 4|MoniKa|qwerty|
 5|Piotrek77|secure9|
-6|EwaL|admin!|
+6|EwaL|admin|
 7|Luki23|user2023|
 8|Gosia01|easyone|
 9|Marek12|test11|
