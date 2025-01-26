@@ -78,9 +78,15 @@ string wczytajAdresEmail () {
 }
 
 string wczytajLinie() {
-    string wejscie = "";
-    cin.sync();
-    getline(cin, wejscie);
+
+    string wejscie;
+    do{
+        wejscie = "";
+        cin.sync();
+        getline(cin, wejscie);
+        if (wejscie.length() == 0) cout << "Nie wprowadziles tekstu. Sprobuj jeszcze raz!" << endl;
+    } while (wejscie.length() == 0);
+
     return wejscie;
 }
 
@@ -588,7 +594,7 @@ int rejestracjaNowegoUzytkownika (vector <Uzytkownik> &uzytkownicy, int idOstatn
     string login, haslo;
     Uzytkownik uzytkownik;
     cout << "Podaj nazwe uzytkownika: ";
-    cin >> login;
+    login = wczytajLinie();
 
     size_t i=0;
     while(i < uzytkownicy.size()) {
@@ -601,7 +607,7 @@ int rejestracjaNowegoUzytkownika (vector <Uzytkownik> &uzytkownicy, int idOstatn
         }
     }
     cout << "Podaj haslo: ";
-    cin >> haslo;
+    haslo = wczytajLinie();
 
     idOstatniegoUzytkownika++;
     uzytkownik.loginUzytkownika = login;
