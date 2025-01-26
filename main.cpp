@@ -341,25 +341,62 @@ void zmianaHaslaLogowania(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
     Sleep(1000);
 }
 
-void zapiszKsiazkeAdresowa(vector <Adresat> adresaci) {
-    fstream plik;
-    plik.open("Adresaci.txt", ios::out);
+void zapiszKsiazkeAdresowa(vector <Adresat> adresaci, int idZalogowanegoUzytkownika) {
+    fstream plikTymczasowy;
+    fstream plikOryginalny;
+    int nrLinii = 1;
+    int idAdresataWPlikuOryginalnym = 0;
+    int idUzytkownikaWPlikuOryginalnym = 0;
+    size_t pozycjaWWektorze = 0;
 
-    for (size_t i = 0; i < adresaci.size(); i++) {
-        if(i > 0) plik << endl;
-        plik << adresaci[i].idAdresata << "|";
-        plik << adresaci[i].idUzytkownika << "|";
-        plik << adresaci[i].imie << "|";
-        plik << adresaci[i].nazwisko << "|";
-        plik << adresaci[i].numerTelefonu << "|";
-        plik << adresaci[i].eMail << "|";
-        plik << adresaci[i].adres << "|";
+    plikTymczasowy.open("Adresaci_tymczasowy.txt", ios::out);
+    plikOryginalny.open("Adresaci.txt", ios::in);
+    if (plikOryginalny.good() == true) {
+        string linia;
+        while (getline(plikOryginalny,linia)) {
+            idAdresataWPlikuOryginalnym = atoi(linia.substr(0,linia.find('|')).c_str());
+            idUzytkownikaWPlikuOryginalnym = atoi(linia.substr(linia.find('|') + 1,linia.find('|',2)).c_str());
+
+            if (idAdresataWPlikuOryginalnym == adresaci[pozycjaWWektorze].idAdresata &&
+            idUzytkownikaWPlikuOryginalnym == idZalogowanegoUzytkownika){
+                if(nrLinii > 1) plikTymczasowy << endl;
+                plikTymczasowy << adresaci[pozycjaWWektorze].idAdresata << "|";
+                plikTymczasowy << adresaci[pozycjaWWektorze].idUzytkownika << "|";
+                plikTymczasowy << adresaci[pozycjaWWektorze].imie << "|";
+                plikTymczasowy << adresaci[pozycjaWWektorze].nazwisko << "|";
+                plikTymczasowy << adresaci[pozycjaWWektorze].numerTelefonu << "|";
+                plikTymczasowy << adresaci[pozycjaWWektorze].eMail << "|";
+                plikTymczasowy << adresaci[pozycjaWWektorze].adres << "|";
+                ++pozycjaWWektorze;
+            } else if (idAdresataWPlikuOryginalnym != adresaci[pozycjaWWektorze].idAdresata &&
+                       idUzytkownikaWPlikuOryginalnym != idZalogowanegoUzytkownika){
+                if(nrLinii > 1) plikTymczasowy <<endl;
+                plikTymczasowy << linia;
+            } else ;
+            nrLinii++;
+        }
+        plikOryginalny.close();
+        remove("Adresaci.txt");
     }
 
-    plik.close();
+    if (pozycjaWWektorze <= adresaci.size() - 1){
+        for (size_t i = pozycjaWWektorze; i < adresaci.size(); i++) {
+            if(i > 0) plikTymczasowy << endl;
+            plikTymczasowy << adresaci[i].idAdresata << "|";
+            plikTymczasowy << adresaci[i].idUzytkownika << "|";
+            plikTymczasowy << adresaci[i].imie << "|";
+            plikTymczasowy << adresaci[i].nazwisko << "|";
+            plikTymczasowy << adresaci[i].numerTelefonu << "|";
+            plikTymczasowy << adresaci[i].eMail << "|";
+            plikTymczasowy << adresaci[i].adres << "|";
+        }
+    }
+
+    plikTymczasowy.close();
+    rename("Adresaci_tymczasowy.txt","Adresaci.txt");
 }
 
-void zapiszDaneUzytkownikow(vector <Uzytkownik> uzytkownicy) {
+void zapiszDaneUzytkownikow(vector <Uzytkownik> uzytkownicy, int idZalogowanegoUzytkownika) {
     fstream plik;
     plik.open("Uzytkownicy.txt", ios::out);
 
@@ -465,7 +502,7 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
         switch(wybor) {
         case '1':
             dodajNowaOsobeDoKsiazki(adresaci, idZalogowanegoUzytkownika);
-            zapiszKsiazkeAdresowa(adresaci);
+            zapiszKsiazkeAdresowa(adresaci, idZalogowanegoUzytkownika);
             break;
         case '2':
             wyszukajPoImieniu(adresaci, idZalogowanegoUzytkownika);
@@ -478,15 +515,15 @@ void panelMenuUzytkownika(vector <Uzytkownik> &uzytkownicy, int idZalogowanegoUz
             break;
         case '5':
             usunAdresata(adresaci, idZalogowanegoUzytkownika);
-            zapiszKsiazkeAdresowa(adresaci);
+            zapiszKsiazkeAdresowa(adresaci, idZalogowanegoUzytkownika);
             break;
         case '6':
             edytujDaneAdresata(adresaci, idZalogowanegoUzytkownika);
-            zapiszKsiazkeAdresowa(adresaci);
+            zapiszKsiazkeAdresowa(adresaci, idZalogowanegoUzytkownika);
             break;
         case '7':
             zmianaHaslaLogowania(uzytkownicy, idZalogowanegoUzytkownika);
-            zapiszDaneUzytkownikow(uzytkownicy);
+            zapiszDaneUzytkownikow(uzytkownicy, idZalogowanegoUzytkownika);
             break;
         case '9':
             idZalogowanegoUzytkownika = 0;
@@ -572,7 +609,7 @@ int main() {
             break;
         case '2':
             idOstatniegoUzytkownika = rejestracjaNowegoUzytkownika (uzytkownicy, idOstatniegoUzytkownika);
-            zapiszDaneUzytkownikow(uzytkownicy);
+            zapiszDaneUzytkownikow(uzytkownicy, idZalogowanegoUzytkownika);
             break;
         case '9':
             exit(0);
